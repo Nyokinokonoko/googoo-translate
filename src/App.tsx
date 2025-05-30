@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   Container,
   Paper,
@@ -22,10 +22,38 @@ function App() {
   const [outputText, setOutputText] = useState('')
   const [toTransform, setToTransform] = useState('ja_formal_aggr')
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [darkMode, setDarkMode] = useState(false)
+  const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>('system')
+  const [systemPrefersDark, setSystemPrefersDark] = useState(false)
   
   // Use language context
   const { strings, currentLanguage, setLanguage } = useLanguage()
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    setSystemPrefersDark(mediaQuery.matches)
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setSystemPrefersDark(e.matches)
+    }
+    
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
+  // Determine actual dark mode based on theme mode
+  const darkMode = useMemo(() => {
+    switch (themeMode) {
+      case 'dark':
+        return true
+      case 'light':
+        return false
+      case 'system':
+        return systemPrefersDark
+      default:
+        return false
+    }
+  }, [themeMode, systemPrefersDark])
   // Create dynamic theme based on dark mode
   const customTheme = useMemo(() => createTheme({
     palette: {
@@ -82,9 +110,8 @@ function App() {
       setLanguage(newLanguage)
     }
   }
-
-  const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode)
+  const handleThemeModeChange = (mode: 'light' | 'dark' | 'system') => {
+    setThemeMode(mode)
   }
 
   const handleSettingsOpen = () => {
@@ -120,14 +147,9 @@ function App() {
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <div data-theme={darkMode ? 'dark' : 'light'}>
-        <Container maxWidth="lg" className="app-container">
-          <Header
+        <Container maxWidth="lg" className="app-container">          <Header
             title={strings.appTitle}
-            currentLanguage={currentLanguage}
-            onLanguageChange={handleLanguageChange}
             onSettingsOpen={handleSettingsOpen}
-            darkMode={darkMode}
-            onDarkModeToggle={handleDarkModeToggle}
           />
 
           <Paper elevation={1} className="app-paper">
@@ -157,18 +179,22 @@ function App() {
             />
           </Paper>
 
-          <Footer disclaimer={disclaimerText} />
-
-          <SettingsDialog
+          <Footer disclaimer={disclaimerText} />          <SettingsDialog
             open={settingsOpen}
             onClose={handleSettingsClose}
             settingsTitle={strings.settingsTitle}
             settingsPlaceholder={strings.settingsPlaceholder}
             settingsFeatures={strings.settingsFeatures}
+            generalSection={strings.generalSection}
+            languageSettings={strings.languageSettings}
             themeSettings={strings.themeSettings}
             translationSettings={strings.translationSettings}
             keyboardSettings={strings.keyboardSettings}
             closeButton={strings.closeButton}
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+            themeMode={themeMode}
+            onThemeModeChange={handleThemeModeChange}
           />
         </Container>
       </div>

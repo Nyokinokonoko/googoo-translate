@@ -1,3 +1,6 @@
+/* Import theme styles */
+@import './styles/theme.css';
+
 /* Minimal CSS reset for Material-UI */
 * {
   box-sizing: border-box;
@@ -13,6 +16,3 @@ body {
 #root {
   min-height: 100vh;
 }
-
-/* Import theme styles */
-@import './styles/theme.css';
