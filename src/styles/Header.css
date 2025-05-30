@@ -1,0 +1,35 @@
+/* Header component styles */
+.header-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-icon-button {
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.header-icon-button:hover {
+  color: var(--primary-main);
+}
+
+.header-language-toggle {
+  height: fit-content;
+}
+
+.header-language-button {
+  padding: 0 1rem;
+}

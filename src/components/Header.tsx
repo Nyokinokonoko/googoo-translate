@@ -5,7 +5,6 @@ import {
   IconButton,
   ToggleButton,
   ToggleButtonGroup,
-  useTheme,
 } from '@mui/material'
 import { Settings, DarkMode, LightMode } from '@mui/icons-material'
 
@@ -26,31 +25,17 @@ const Header: React.FC<HeaderProps> = ({
   darkMode,
   onDarkModeToggle,
 }) => {
-  const theme = useTheme()
-  
   return (
-    <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
-      <Typography 
-        variant="h4" 
-        component="h1" 
-        sx={{ 
-          fontWeight: 300, 
-          color: theme.palette.text.secondary 
-        }}
-      >
+    <Box className="header-container">
+      <Typography variant="h4" component="h1" className="header-title">
         {title}
       </Typography>
-        {/* Dark Mode Toggle, Language Switcher and Settings */}
-      <Box display="flex" alignItems="center" gap={1}>
+      
+      <Box className="header-controls">
         <IconButton 
           size="small" 
           onClick={onDarkModeToggle}
-          sx={{ 
-            color: theme.palette.text.secondary,
-            '&:hover': {
-              color: theme.palette.primary.main
-            }
-          }}
+          className="header-icon-button"
         >
           {darkMode ? <LightMode /> : <DarkMode />}
         </IconButton>
@@ -60,24 +45,20 @@ const Header: React.FC<HeaderProps> = ({
           exclusive
           onChange={onLanguageChange}
           size="small"
-          sx={{ height: 'fit-content' }}
+          className="header-language-toggle"
         >
-          <ToggleButton value="en" sx={{ px: 2 }}>
+          <ToggleButton value="en" className="header-language-button">
             EN
           </ToggleButton>
-          <ToggleButton value="ja" sx={{ px: 2 }}>
+          <ToggleButton value="ja" className="header-language-button">
             日本語
           </ToggleButton>
         </ToggleButtonGroup>
-          <IconButton 
+        
+        <IconButton 
           size="small" 
           onClick={onSettingsOpen}
-          sx={{ 
-            color: theme.palette.text.secondary,
-            '&:hover': {
-              color: theme.palette.primary.main
-            }
-          }}
+          className="header-icon-button"
         >
           <Settings />
         </IconButton>

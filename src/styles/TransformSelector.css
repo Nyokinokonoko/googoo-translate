@@ -1,0 +1,47 @@
+/* TransformSelector component styles */
+.transform-selector-container {
+  padding: 1rem;
+  border-bottom: 1px solid var(--divider);
+}
+
+.transform-selector-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.transform-selector-form-control {
+  flex: 1;
+  max-width: 400px;
+  min-width: auto;
+}
+
+.transform-selector-swap-icon {
+  padding: 0 1rem;
+}
+
+.transform-selector-swap-icon svg {
+  color: var(--text-secondary);
+  font-size: 28px;
+}
+
+/* Mobile styles */
+@media (max-width: 900px) {
+  .transform-selector-content {
+    flex-direction: column;
+  }
+  
+  .transform-selector-form-control {
+    max-width: 100%;
+    min-width: 100%;
+  }
+  
+  .transform-selector-swap-icon {
+    padding: 0.5rem 0;
+  }
+  
+  .transform-selector-swap-icon svg {
+    transform: rotate(90deg);
+  }
+}

@@ -13,3 +13,6 @@ body {
 #root {
   min-height: 100vh;
 }
+
+/* Import theme styles */
+@import './styles/theme.css';

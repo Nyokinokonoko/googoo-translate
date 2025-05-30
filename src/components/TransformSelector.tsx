@@ -6,8 +6,8 @@ import {
   Select,
   MenuItem,
   Divider,
-  useTheme,
   useMediaQuery,
+  useTheme,
 } from '@mui/material'
 import { SwapHoriz } from '@mui/icons-material'
 import type { TranslationTarget } from '../translationTargets'
@@ -32,25 +32,15 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
   englishTargets,
   getDisplayName,
   onTransformChange,
-}) => {
-  const theme = useTheme()
+}) => {  const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  
   return (
-    <Box sx={{ p: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
-      <Box 
-        display="flex" 
-        alignItems="center" 
-        justifyContent="space-between" 
-        gap={2}
-        flexDirection={isMobile ? 'column' : 'row'}
-      >
+    <Box className="transform-selector-container">
+      <Box className={`transform-selector-content ${isMobile ? 'mobile' : ''}`}>
         <FormControl 
           size="small" 
-          sx={{ 
-            flex: 1, 
-            maxWidth: isMobile ? '100%' : 400,
-            minWidth: isMobile ? '100%' : 'auto'
-          }} 
+          className="transform-selector-form-control"
           disabled
         >
           <InputLabel>{fromLabel}</InputLabel>
@@ -60,23 +50,15 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
           >
             <MenuItem value="auto">{autoDetect}</MenuItem>
           </Select>
-        </FormControl>        <Box sx={{ px: isMobile ? 0 : 2, py: isMobile ? 1 : 0 }}>
-          <SwapHoriz 
-            sx={{ 
-              color: theme.palette.text.secondary, 
-              fontSize: 28,
-              transform: isMobile ? 'rotate(90deg)' : 'none'
-            }} 
-          />
+        </FormControl>
+
+        <Box className="transform-selector-swap-icon">
+          <SwapHoriz />
         </Box>
 
         <FormControl 
           size="small" 
-          sx={{ 
-            flex: 1, 
-            maxWidth: isMobile ? '100%' : 400,
-            minWidth: isMobile ? '100%' : 'auto'
-          }}
+          className="transform-selector-form-control"
         >
           <InputLabel>{toLabel}</InputLabel>
           <Select

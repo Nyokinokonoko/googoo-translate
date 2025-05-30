@@ -6,8 +6,8 @@ import {
   Chip,
   Button,
   Divider,
-  useTheme,
   useMediaQuery,
+  useTheme,
 } from '@mui/material'
 import {
   ContentCopy,
@@ -41,52 +41,24 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   onTranslate,
   onCopy,
   onShare,
-}) => {
-  const theme = useTheme()
+}) => {  const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
-    <Box 
-      display="flex" 
-      flexDirection={isMobile ? 'column' : 'row'}
-      minHeight={isMobile ? 600 : 400}
-    >
+    <Box className={`translation-box-container ${isMobile ? 'mobile' : ''}`}>
       {/* Input Side */}
-      <Box 
-        flex={1} 
-        position="relative"
-        minHeight={isMobile ? 300 : 'auto'}
-      >
+      <Box className="translation-box-side">
         <TextField
           multiline
           rows={isMobile ? 12 : 16}
           placeholder={inputPlaceholder}
           value={inputText}
-          onChange={(e) => onInputChange(e.target.value)}          sx={{
-            width: '100%',
-            '& .MuiOutlinedInput-root': {
-              border: 'none',
-              '& fieldset': { border: 'none' },
-              '&:hover fieldset': { border: 'none' },
-              '&.Mui-focused fieldset': { border: 'none' },
-            },
-            '& .MuiInputBase-input': {
-              fontSize: '18px',
-              lineHeight: 1.5,
-              color: theme.palette.text.primary,
-            }
-          }}
+          onChange={(e) => onInputChange(e.target.value)}
+          className="translation-box-textarea"
         />
         
         {/* Input Controls */}
-        <Box 
-          position="absolute" 
-          bottom={8} 
-          right={8} 
-          display="flex" 
-          gap={1}
-          alignItems="center"
-        >
+        <Box className="translation-box-controls">
           {inputText && (
             <IconButton size="small" onClick={onClear}>
               <Clear />
@@ -97,15 +69,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
             size="small"
             disabled={!inputText.trim()}
             onClick={onTranslate}
-            sx={{
-              textTransform: 'none',
-              borderRadius: 2,
-              px: 2,
-              bgcolor: '#1976d2',
-              '&:hover': {
-                bgcolor: '#1565c0'
-              }
-            }}
+            className="translation-box-translate-button"
           >
             {translateButton}
           </Button>
@@ -113,7 +77,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
 
         {/* Character Count */}
         {inputText && (
-          <Box position="absolute" bottom={8} left={8}>
+          <Box className="translation-box-character-count">
             <Chip 
               label={`${inputText.length} ${characterCount}`} 
               size="small" 
@@ -127,15 +91,10 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       <Divider 
         orientation={isMobile ? 'horizontal' : 'vertical'} 
         flexItem 
-      />      {/* Output Side */}
-      <Box 
-        flex={1} 
-        position="relative" 
-        sx={{
-          bgcolor: theme.palette.mode === 'dark' ? theme.palette.background.default : '#f8f9fa'
-        }}
-        minHeight={isMobile ? 300 : 'auto'}
-      >
+      />
+
+      {/* Output Side */}
+      <Box className="translation-box-side translation-box-output-side">
         <TextField
           multiline
           rows={isMobile ? 12 : 16}
@@ -143,32 +102,13 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
           value={outputText}
           InputProps={{
             readOnly: true,
-          }}          sx={{
-            width: '100%',
-            '& .MuiOutlinedInput-root': {
-              border: 'none',
-              bgcolor: 'transparent',
-              '& fieldset': { border: 'none' },
-              '&:hover fieldset': { border: 'none' },
-              '&.Mui-focused fieldset': { border: 'none' },
-            },
-            '& .MuiInputBase-input': {
-              fontSize: '18px',
-              lineHeight: 1.5,
-              color: theme.palette.text.primary,
-            }
           }}
+          className="translation-box-textarea translation-box-output-textarea"
         />
 
         {/* Output Controls */}
         {outputText && (
-          <Box 
-            position="absolute" 
-            bottom={8} 
-            right={8} 
-            display="flex" 
-            gap={1}
-          >
+          <Box className="translation-box-controls">
             <IconButton size="small" onClick={onCopy}>
               <ContentCopy />
             </IconButton>

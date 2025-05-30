@@ -41,15 +41,14 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
     >
       <DialogTitle>
         {settingsTitle}
-      </DialogTitle>
-      <DialogContent>
-        <Typography variant="body1" sx={{ py: 2 }}>
+      </DialogTitle>      <DialogContent>
+        <Typography variant="body1" className="settings-dialog-content">
           {settingsPlaceholder}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {settingsFeatures} 
         </Typography>
-        <Box component="ul" sx={{ mt: 1, pl: 2 }}>
+        <Box component="ul" className="settings-dialog-features-list">
           <Typography variant="body2" color="text.secondary" component="li">
             {themeSettings}
           </Typography>

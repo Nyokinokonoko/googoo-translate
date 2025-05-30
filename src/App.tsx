@@ -15,6 +15,7 @@ import {
   SettingsDialog,
   Footer,
 } from './components'
+import './styles/index.css'
 
 function App() {
   const [inputText, setInputText] = useState('')
@@ -115,65 +116,62 @@ function App() {
       LLMs may provide inaccurate response, use the output responsibly with caution.
     </>
   )
-
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <Container maxWidth="lg" sx={{ py: 4 }}>        <Header
-          title={strings.appTitle}
-          currentLanguage={currentLanguage}
-          onLanguageChange={handleLanguageChange}
-          onSettingsOpen={handleSettingsOpen}
-          darkMode={darkMode}
-          onDarkModeToggle={handleDarkModeToggle}
-        />        <Paper 
-          elevation={1} 
-          sx={{ 
-            borderRadius: 2,
-            overflow: 'hidden',
-            border: `1px solid ${customTheme.palette.divider}`
-          }}
-        >
-          <TransformSelector
-            fromLabel={strings.fromLabel}
-            toLabel={strings.toLabel}
-            autoDetect={strings.autoDetect}
-            toTransform={toTransform}
-            japaneseTargets={japaneseTargets}
-            englishTargets={englishTargets}
-            getDisplayName={getDisplayName}
-            onTransformChange={setToTransform}
+      <div data-theme={darkMode ? 'dark' : 'light'}>
+        <Container maxWidth="lg" className="app-container">
+          <Header
+            title={strings.appTitle}
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+            onSettingsOpen={handleSettingsOpen}
+            darkMode={darkMode}
+            onDarkModeToggle={handleDarkModeToggle}
           />
 
-          <TranslationBox
-            inputText={inputText}
-            outputText={outputText}
-            inputPlaceholder={strings.inputPlaceholder}
-            outputPlaceholder={strings.outputPlaceholder}
-            translateButton={strings.translateButton}
-            characterCount={strings.characterCount}
-            onInputChange={setInputText}
-            onClear={handleClear}
-            onTranslate={handleTranslate}
-            onCopy={handleCopy}
-            onShare={handleShare}
+          <Paper elevation={1} className="app-paper">
+            <TransformSelector
+              fromLabel={strings.fromLabel}
+              toLabel={strings.toLabel}
+              autoDetect={strings.autoDetect}
+              toTransform={toTransform}
+              japaneseTargets={japaneseTargets}
+              englishTargets={englishTargets}
+              getDisplayName={getDisplayName}
+              onTransformChange={setToTransform}
+            />
+
+            <TranslationBox
+              inputText={inputText}
+              outputText={outputText}
+              inputPlaceholder={strings.inputPlaceholder}
+              outputPlaceholder={strings.outputPlaceholder}
+              translateButton={strings.translateButton}
+              characterCount={strings.characterCount}
+              onInputChange={setInputText}
+              onClear={handleClear}
+              onTranslate={handleTranslate}
+              onCopy={handleCopy}
+              onShare={handleShare}
+            />
+          </Paper>
+
+          <Footer disclaimer={disclaimerText} />
+
+          <SettingsDialog
+            open={settingsOpen}
+            onClose={handleSettingsClose}
+            settingsTitle={strings.settingsTitle}
+            settingsPlaceholder={strings.settingsPlaceholder}
+            settingsFeatures={strings.settingsFeatures}
+            themeSettings={strings.themeSettings}
+            translationSettings={strings.translationSettings}
+            keyboardSettings={strings.keyboardSettings}
+            closeButton={strings.closeButton}
           />
-        </Paper>
-
-        <Footer disclaimer={disclaimerText} />
-
-        <SettingsDialog
-          open={settingsOpen}
-          onClose={handleSettingsClose}
-          settingsTitle={strings.settingsTitle}
-          settingsPlaceholder={strings.settingsPlaceholder}
-          settingsFeatures={strings.settingsFeatures}
-          themeSettings={strings.themeSettings}
-          translationSettings={strings.translationSettings}
-          keyboardSettings={strings.keyboardSettings}
-          closeButton={strings.closeButton}
-        />
-      </Container>
+        </Container>
+      </div>
     </ThemeProvider>
   )
 }

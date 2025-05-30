@@ -1,0 +1,9 @@
+/* SettingsDialog component styles */
+.settings-dialog-content {
+  padding: 1rem 0;
+}
+
+.settings-dialog-features-list {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
