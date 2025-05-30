@@ -215,6 +215,7 @@ function App() {
                 )}                <Button
                   variant="contained"
                   size="small"
+                  disabled={!inputText.trim()}
                   sx={{
                     textTransform: 'none',
                     borderRadius: 2,
