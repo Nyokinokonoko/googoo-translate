@@ -1,0 +1,11 @@
+/* Disclaimer component styles */
+.disclaimer-container {
+  text-align: center;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.disclaimer-text {
+  line-height: 1.6;
+  background-color: transparent;
+}

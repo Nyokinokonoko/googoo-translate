@@ -41,9 +41,8 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   onTranslate,
   onCopy,
   onShare,
-}) => {  const theme = useTheme()
+}) => {const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
   return (
     <Box className={`translation-box-container ${isMobile ? 'mobile' : ''}`}>
       {/* Input Side */}
@@ -115,11 +114,9 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
             <IconButton size="small" onClick={onShare}>
               <Share />
             </IconButton>
-          </Box>
-        )}
+          </Box>        )}      </Box>
       </Box>
-    </Box>
-  )
+      )
 }
 
 export default TranslationBox

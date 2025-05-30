@@ -14,6 +14,7 @@ import {
   TranslationBox,
   SettingsDialog,
   Footer,
+  Disclaimer,
 } from './components'
 import './styles/index.css'
 
@@ -130,19 +131,11 @@ function App() {
   const handleCopy = () => {
     navigator.clipboard.writeText(outputText)
   }
-
   const handleShare = () => {
     // TODO: Implement share functionality
     console.log('Share:', outputText)
   }
 
-  const disclaimerText = (
-    <>
-      Translations (text transformations) are powered by LLMs.<br />
-      The project is mostly for entertainment purposes.<br />
-      LLMs may provide inaccurate response, use the output responsibly with caution.
-    </>
-  )
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
@@ -162,9 +155,7 @@ function App() {
               englishTargets={englishTargets}
               getDisplayName={getDisplayName}
               onTransformChange={setToTransform}
-            />
-
-            <TranslationBox
+            />            <TranslationBox
               inputText={inputText}
               outputText={outputText}
               inputPlaceholder={strings.inputPlaceholder}
@@ -175,11 +166,12 @@ function App() {
               onClear={handleClear}
               onTranslate={handleTranslate}
               onCopy={handleCopy}
-              onShare={handleShare}
-            />
+              onShare={handleShare}            />
           </Paper>
+          <Disclaimer text={strings.disclaimerText} />
+          <Footer />
 
-          <Footer disclaimer={disclaimerText} />          <SettingsDialog
+          <SettingsDialog
             open={settingsOpen}
             onClose={handleSettingsClose}
             settingsTitle={strings.settingsTitle}

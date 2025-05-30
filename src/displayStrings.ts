@@ -32,12 +32,12 @@ export interface DisplayStrings {
   darkMode: string;
   lightMode: string;
   systemDefault: string;
-  
-  // Helper function labels (from translationTargets.ts)
+    // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: string;
   
   // Footer and metadata
   footerText: string;
+  disclaimerText: string;
 }
 
 export const displayStrings: DisplayStrings = {
@@ -71,12 +71,12 @@ export const displayStrings: DisplayStrings = {
   darkMode: 'Dark Mode',
   lightMode: 'Light Mode',
   systemDefault: 'System Default',
-  
-  // Helper function labels (from translationTargets.ts)
+    // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'Detect style',
   
   // Footer and metadata
-  footerText: 'Powered by AI • Transform text in creative ways'
+  footerText: 'Powered by AI • Transform text in creative ways',
+  disclaimerText: 'This project is mostly for entertainment purposes. Translations (text transformations) are powered by LLMs. LLMs may provide inaccurate response, use the output responsibly with caution.',
 };
 
 // Helper function to get display string by key
