@@ -14,9 +14,18 @@ export interface DisplayStrings {
   
   // Button labels
   translateButton: string;
+  closeButton: string;
   
   // Status and feedback
   characterCount: string;
+  
+  // Settings
+  settingsTitle: string;
+  settingsPlaceholder: string;
+  settingsFeatures: string;
+  themeSettings: string;
+  translationSettings: string;
+  keyboardSettings: string;
   
   // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: string;
@@ -38,9 +47,18 @@ export const displayStrings: DisplayStrings = {
   
   // Button labels
   translateButton: 'Translate',
+  closeButton: 'Close',
   
   // Status and feedback
   characterCount: 'characters',
+  
+  // Settings
+  settingsTitle: 'Settings',
+  settingsPlaceholder: 'Settings options will be available here in a future update.',
+  settingsFeatures: 'Planned features:',
+  themeSettings: 'Theme settings',
+  translationSettings: 'Translation preferences',
+  keyboardSettings: 'Keyboard shortcuts',
   
   // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'Detect style',

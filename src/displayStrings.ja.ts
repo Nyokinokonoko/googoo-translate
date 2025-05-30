@@ -16,9 +16,18 @@ export const displayStringsJa: DisplayStrings = {
   
   // Button labels
   translateButton: '変換',
+  closeButton: '閉じる',
   
   // Status and feedback
   characterCount: '文字',
+  
+  // Settings
+  settingsTitle: '設定',
+  settingsPlaceholder: '設定オプションは将来のアップデートで利用可能になります。',
+  settingsFeatures: '予定されている機能:',
+  themeSettings: 'テーマ設定',
+  translationSettings: '変換設定',
+  keyboardSettings: 'キーボードショートカット',
   
   // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'スタイル検出',

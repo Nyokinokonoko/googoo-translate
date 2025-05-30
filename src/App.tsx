@@ -16,13 +16,18 @@ import {
   useTheme,
   useMediaQuery,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material'
 import {
   SwapHoriz,
   ContentCopy,
   Share,
-  Clear
+  Clear,
+  Settings
 } from '@mui/icons-material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -45,6 +50,7 @@ function App() {
   const [inputText, setInputText] = useState('')
   const [outputText, setOutputText] = useState('')
   const [toTransform, setToTransform] = useState('ja_formal_aggr')
+  const [settingsOpen, setSettingsOpen] = useState(false)
     // Use language context
   const { strings, currentLanguage, setLanguage } = useLanguage()
 
@@ -64,36 +70,57 @@ function App() {
     setInputText('')
     setOutputText('')
   }
-
   const handleLanguageChange = (_event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => {
     if (newLanguage === 'en' || newLanguage === 'ja') {
       setLanguage(newLanguage)
     }
   }
 
+  const handleSettingsOpen = () => {
+    setSettingsOpen(true)
+  }
+
+  const handleSettingsClose = () => {
+    setSettingsOpen(false)
+  }
+
   return (
     <ThemeProvider theme={customTheme}>      <CssBaseline />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
+      <Container maxWidth="lg" sx={{ py: 4 }}>        <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h4" component="h1" sx={{ fontWeight: 300, color: '#5f6368' }}>
             {strings.appTitle}
           </Typography>
           
-          {/* Language Switcher */}
-          <ToggleButtonGroup
-            value={currentLanguage}
-            exclusive
-            onChange={handleLanguageChange}
-            size="small"
-            sx={{ height: 'fit-content' }}
-          >
-            <ToggleButton value="en" sx={{ px: 2 }}>
-              EN
-            </ToggleButton>
-            <ToggleButton value="ja" sx={{ px: 2 }}>
-              日本語
-            </ToggleButton>
-          </ToggleButtonGroup>
+          {/* Language Switcher and Settings */}
+          <Box display="flex" alignItems="center" gap={1}>
+            <ToggleButtonGroup
+              value={currentLanguage}
+              exclusive
+              onChange={handleLanguageChange}
+              size="small"
+              sx={{ height: 'fit-content' }}
+            >
+              <ToggleButton value="en" sx={{ px: 2 }}>
+                EN
+              </ToggleButton>
+              <ToggleButton value="ja" sx={{ px: 2 }}>
+                日本語
+              </ToggleButton>
+            </ToggleButtonGroup>
+            
+            <IconButton 
+              size="small" 
+              onClick={handleSettingsOpen}
+              sx={{ 
+                color: '#5f6368',
+                '&:hover': {
+                  color: '#1976d2'
+                }
+              }}
+            >
+              <Settings />
+            </IconButton>
+          </Box>
         </Box>
 
         <Paper 
@@ -332,10 +359,43 @@ function App() {
               onMouseEnter={(e) => (e.target as HTMLAnchorElement).style.color = '#1976d2'}
               onMouseLeave={(e) => (e.target as HTMLAnchorElement).style.color = 'inherit'}
             >
-              GitHub Copilot
-            </a>
+              GitHub Copilot            </a>
           </Typography>
-        </Box>
+        </Box>        {/* Settings Dialog */}
+        <Dialog 
+          open={settingsOpen} 
+          onClose={handleSettingsClose}
+          maxWidth="sm"
+          fullWidth
+        >
+          <DialogTitle>
+            {strings.settingsTitle}
+          </DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" sx={{ py: 2 }}>
+              {strings.settingsPlaceholder}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {strings.settingsFeatures} 
+            </Typography>
+            <Box component="ul" sx={{ mt: 1, pl: 2 }}>
+              <Typography variant="body2" color="text.secondary" component="li">
+                {strings.themeSettings}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" component="li">
+                {strings.translationSettings}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" component="li">
+                {strings.keyboardSettings}
+              </Typography>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSettingsClose}>
+              {strings.closeButton}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     </ThemeProvider>
   )
