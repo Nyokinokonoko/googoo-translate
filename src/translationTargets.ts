@@ -1,3 +1,5 @@
+import { displayStrings } from './displayStrings';
+
 export interface TranslationTarget {
   identifier: string;
   baseLang: string;
@@ -94,20 +96,10 @@ export const translationTargets: TranslationTarget[] = [
   }
 ];
 
-// Helper function to get translation target by identifier
-export const getTranslationTargetById = (identifier: string): TranslationTarget | undefined => {
-  return translationTargets.find(target => target.identifier === identifier);
-};
-
-// Helper function to get translation targets by base language
-export const getTranslationTargetsByLang = (baseLang: string): TranslationTarget[] => {
-  return translationTargets.filter(target => target.baseLang === baseLang);
-};
-
 // Special detection option
 export const detectTranslationTarget: TranslationTarget = {
   identifier: 'detect',
   baseLang: 'auto',
-  dispEn: 'Detect style',
+  dispEn: displayStrings.helperFunctionDetectStyle,
   dispJa: 'スタイル検出'
 };

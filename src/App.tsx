@@ -14,7 +14,9 @@ import {
   Chip,
   Button,
   useTheme,
-  useMediaQuery
+  useMediaQuery,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material'
 import {
   SwapHoriz,
@@ -26,6 +28,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { translationTargets } from './translationTargets'
 import type { TranslationTarget } from './translationTargets'
+import { useLanguage, getLocalizedDisplayName } from './languageContext'
 
 const customTheme = createTheme({
   palette: {
@@ -42,6 +45,8 @@ function App() {
   const [inputText, setInputText] = useState('')
   const [outputText, setOutputText] = useState('')
   const [toTransform, setToTransform] = useState('ja_formal_aggr')
+    // Use language context
+  const { strings, currentLanguage, setLanguage } = useLanguage()
 
   // Responsive breakpoint
   const theme = useTheme()
@@ -51,8 +56,8 @@ function App() {
   const japaneseTargets = translationTargets.filter(target => target.baseLang === 'ja')
   const englishTargets = translationTargets.filter(target => target.baseLang === 'en')
 
-  const getDisplayName = (target: TranslationTarget, isJapanese = false) => {
-    return isJapanese ? target.dispJa : target.dispEn
+  const getDisplayName = (target: TranslationTarget) => {
+    return getLocalizedDisplayName(target, currentLanguage)
   }
 
   const handleClear = () => {
@@ -60,14 +65,35 @@ function App() {
     setOutputText('')
   }
 
+  const handleLanguageChange = (_event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => {
+    if (newLanguage === 'en' || newLanguage === 'ja') {
+      setLanguage(newLanguage)
+    }
+  }
+
   return (
-    <ThemeProvider theme={customTheme}>
-      <CssBaseline />
+    <ThemeProvider theme={customTheme}>      <CssBaseline />
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box mb={3}>
+        <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="h4" component="h1" sx={{ fontWeight: 300, color: '#5f6368' }}>
-            Googoo Translate
+            {strings.appTitle}
           </Typography>
+          
+          {/* Language Switcher */}
+          <ToggleButtonGroup
+            value={currentLanguage}
+            exclusive
+            onChange={handleLanguageChange}
+            size="small"
+            sx={{ height: 'fit-content' }}
+          >
+            <ToggleButton value="en" sx={{ px: 2 }}>
+              EN
+            </ToggleButton>
+            <ToggleButton value="ja" sx={{ px: 2 }}>
+              日本語
+            </ToggleButton>
+          </ToggleButtonGroup>
         </Box>
 
         <Paper 
@@ -86,8 +112,7 @@ function App() {
               justifyContent="space-between" 
               gap={2}
               flexDirection={isMobile ? 'column' : 'row'}
-            >
-              <FormControl 
+            >              <FormControl 
                 size="small" 
                 sx={{ 
                   flex: 1, 
@@ -95,13 +120,12 @@ function App() {
                   minWidth: isMobile ? '100%' : 'auto'
                 }} 
                 disabled
-              >
-                <InputLabel>From</InputLabel>
+              >                <InputLabel>{strings.fromLabel}</InputLabel>
                 <Select
                   value="auto"
-                  label="From"
+                  label={strings.fromLabel}
                 >
-                  <MenuItem value="auto">Auto</MenuItem>
+                  <MenuItem value="auto">{strings.autoDetect}</MenuItem>
                 </Select>
               </FormControl>
 
@@ -113,9 +137,7 @@ function App() {
                     transform: isMobile ? 'rotate(90deg)' : 'none'
                   }} 
                 />
-              </Box>
-
-              <FormControl 
+              </Box>              <FormControl 
                 size="small" 
                 sx={{ 
                   flex: 1, 
@@ -123,10 +145,10 @@ function App() {
                   minWidth: isMobile ? '100%' : 'auto'
                 }}
               >
-                <InputLabel>To</InputLabel>
+                <InputLabel>{strings.toLabel}</InputLabel>
                 <Select
                   value={toTransform}
-                  label="To"
+                  label={strings.toLabel}
                   onChange={(e) => setToTransform(e.target.value)}
                 >
                   {japaneseTargets.map((target) => (
@@ -156,11 +178,10 @@ function App() {
               flex={1} 
               position="relative"
               minHeight={isMobile ? 300 : 'auto'}
-            >
-              <TextField
+            >              <TextField
                 multiline
                 rows={isMobile ? 12 : 16}
-                placeholder="Enter text to transform..."
+                placeholder={strings.inputPlaceholder}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 sx={{
@@ -191,8 +212,7 @@ function App() {
                   <IconButton size="small" onClick={handleClear}>
                     <Clear />
                   </IconButton>
-                )}
-                <Button
+                )}                <Button
                   variant="contained"
                   size="small"
                   sx={{
@@ -205,15 +225,13 @@ function App() {
                     }
                   }}
                 >
-                  Translate
+                  {strings.translateButton}
                 </Button>
-              </Box>
-
-              {/* Character Count */}
+              </Box>              {/* Character Count */}
               {inputText && (
                 <Box position="absolute" bottom={8} left={8}>
                   <Chip 
-                    label={`${inputText.length} characters`} 
+                    label={`${inputText.length} ${strings.characterCount}`} 
                     size="small" 
                     variant="outlined"
                   />
@@ -233,11 +251,10 @@ function App() {
               position="relative" 
               bgcolor="#f8f9fa"
               minHeight={isMobile ? 300 : 'auto'}
-            >
-              <TextField
+            >              <TextField
                 multiline
                 rows={isMobile ? 12 : 16}
-                placeholder="Transformation will appear here..."
+                placeholder={strings.outputPlaceholder}
                 value={outputText}
                 InputProps={{
                   readOnly: true,
@@ -277,12 +294,10 @@ function App() {
               )}
             </Box>
           </Box>
-        </Paper>
-
-        {/* Footer */}
+        </Paper>        {/* Footer */}
         <Box textAlign="center" mt={4}>
           <Typography variant="body2" color="text.secondary">
-            Powered by AI • Transform text in creative ways
+            {strings.footerText}
           </Typography>
         </Box>
       </Container>
