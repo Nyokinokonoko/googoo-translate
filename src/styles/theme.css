@@ -3,49 +3,28 @@
   /* Light theme colors */
   --primary-main: #1976d2;
   --primary-hover: #1565c0;
-  --background-default-light: #f5f5f5;
-  --background-paper-light: #ffffff;
   --background-input-light: #f8f9fa;
   --text-primary-light: rgba(0, 0, 0, 0.87);
   --text-secondary-light: rgba(0, 0, 0, 0.6);
   --divider-light: rgba(0, 0, 0, 0.12);
-  --chip-bg-light: rgba(0, 0, 0, 0.08);
-  --chip-border-light: rgba(0, 0, 0, 0.23);
   
   /* Dark theme colors */
-  --background-default-dark: #1a1a1a;
-  --background-paper-dark: #2d2d2d;
   --background-input-dark: #1a1a1a;
   --text-primary-dark: #e0e0e0;
   --text-secondary-dark: #b3b3b3;
   --divider-dark: #404040;
-  --chip-bg-dark: #404040;
-  --chip-border-dark: #555;
 }
 
 [data-theme="light"] {
-  --background-default: var(--background-default-light);
-  --background-paper: var(--background-paper-light);
   --background-input: var(--background-input-light);
   --text-primary: var(--text-primary-light);
   --text-secondary: var(--text-secondary-light);
   --divider: var(--divider-light);
-  --chip-bg: var(--chip-bg-light);
-  --chip-border: var(--chip-border-light);
 }
 
 [data-theme="dark"] {
-  --background-default: var(--background-default-dark);
-  --background-paper: var(--background-paper-dark);
   --background-input: var(--background-input-dark);
   --text-primary: var(--text-primary-dark);
   --text-secondary: var(--text-secondary-dark);
   --divider: var(--divider-dark);
-  --chip-bg: var(--chip-bg-dark);
-  --chip-border: var(--chip-border-dark);
-}
-
-/* Common transitions */
-.theme-transition {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }

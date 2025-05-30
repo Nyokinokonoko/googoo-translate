@@ -1,14 +1,4 @@
 /* Footer component styles */
-.footer-disclaimer {
-  text-align: center;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.footer-disclaimer-text {
-  line-height: 1.6;
-}
-
 .footer-content {
   text-align: center;
   margin-top: 1rem;

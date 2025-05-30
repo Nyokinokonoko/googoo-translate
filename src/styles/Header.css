@@ -25,11 +25,3 @@
 .header-icon-button:hover {
   color: var(--primary-main);
 }
-
-.header-language-toggle {
-  height: fit-content;
-}
-
-.header-language-button {
-  padding: 0 1rem;
-}

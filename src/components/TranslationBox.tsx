@@ -44,7 +44,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
 }) => {const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   return (
-    <Box className={`translation-box-container ${isMobile ? 'mobile' : ''}`}>
+    <Box className="translation-box-container">
       {/* Input Side */}
       <Box className="translation-box-side">
         <TextField

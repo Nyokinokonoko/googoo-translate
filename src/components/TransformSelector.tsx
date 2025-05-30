@@ -6,8 +6,6 @@ import {
   Select,
   MenuItem,
   Divider,
-  useMediaQuery,
-  useTheme,
 } from '@mui/material'
 import { SwapHoriz } from '@mui/icons-material'
 import type { TranslationTarget } from '../translationTargets'
@@ -32,12 +30,10 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
   englishTargets,
   getDisplayName,
   onTransformChange,
-}) => {  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  
+}) => {  
   return (
     <Box className="transform-selector-container">
-      <Box className={`transform-selector-content ${isMobile ? 'mobile' : ''}`}>
+      <Box className="transform-selector-content">
         <FormControl 
           size="small" 
           className="transform-selector-form-control"
