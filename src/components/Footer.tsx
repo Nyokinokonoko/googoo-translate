@@ -1,11 +1,13 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 
 interface FooterProps {
   disclaimer: React.ReactNode
 }
 
 const Footer: React.FC<FooterProps> = ({ disclaimer }) => {
+  const theme = useTheme()
+  
   return (
     <>
       {/* Disclaimer */}
@@ -24,12 +26,12 @@ const Footer: React.FC<FooterProps> = ({ disclaimer }) => {
             target="_blank" 
             rel="noopener noreferrer"
             style={{ 
-              color: 'inherit', 
+              color: theme.palette.text.secondary, 
               textDecoration: 'none',
               transition: 'color 0.2s ease'
             }}
-            onMouseEnter={(e) => (e.target as HTMLAnchorElement).style.color = '#1976d2'}
-            onMouseLeave={(e) => (e.target as HTMLAnchorElement).style.color = 'inherit'}
+            onMouseEnter={(e) => (e.target as HTMLAnchorElement).style.color = theme.palette.primary.main}
+            onMouseLeave={(e) => (e.target as HTMLAnchorElement).style.color = theme.palette.text.secondary}
           >
             Kenny Ha
           </a>
@@ -39,12 +41,12 @@ const Footer: React.FC<FooterProps> = ({ disclaimer }) => {
             target="_blank" 
             rel="noopener noreferrer"
             style={{ 
-              color: 'inherit', 
+              color: theme.palette.text.secondary, 
               textDecoration: 'none',
               transition: 'color 0.2s ease'
             }}
-            onMouseEnter={(e) => (e.target as HTMLAnchorElement).style.color = '#1976d2'}
-            onMouseLeave={(e) => (e.target as HTMLAnchorElement).style.color = 'inherit'}
+            onMouseEnter={(e) => (e.target as HTMLAnchorElement).style.color = theme.palette.primary.main}
+            onMouseLeave={(e) => (e.target as HTMLAnchorElement).style.color = theme.palette.text.secondary}
           >
             GitHub Copilot
           </a>

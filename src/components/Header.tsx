@@ -5,14 +5,17 @@ import {
   IconButton,
   ToggleButton,
   ToggleButtonGroup,
+  useTheme,
 } from '@mui/material'
-import { Settings } from '@mui/icons-material'
+import { Settings, DarkMode, LightMode } from '@mui/icons-material'
 
 interface HeaderProps {
   title: string
   currentLanguage: string
   onLanguageChange: (event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => void
   onSettingsOpen: () => void
+  darkMode: boolean
+  onDarkModeToggle: () => void
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -20,15 +23,38 @@ const Header: React.FC<HeaderProps> = ({
   currentLanguage,
   onLanguageChange,
   onSettingsOpen,
+  darkMode,
+  onDarkModeToggle,
 }) => {
+  const theme = useTheme()
+  
   return (
     <Box mb={3} display="flex" justifyContent="space-between" alignItems="center">
-      <Typography variant="h4" component="h1" sx={{ fontWeight: 300, color: '#5f6368' }}>
+      <Typography 
+        variant="h4" 
+        component="h1" 
+        sx={{ 
+          fontWeight: 300, 
+          color: theme.palette.text.secondary 
+        }}
+      >
         {title}
       </Typography>
-      
-      {/* Language Switcher and Settings */}
+        {/* Dark Mode Toggle, Language Switcher and Settings */}
       <Box display="flex" alignItems="center" gap={1}>
+        <IconButton 
+          size="small" 
+          onClick={onDarkModeToggle}
+          sx={{ 
+            color: theme.palette.text.secondary,
+            '&:hover': {
+              color: theme.palette.primary.main
+            }
+          }}
+        >
+          {darkMode ? <LightMode /> : <DarkMode />}
+        </IconButton>
+        
         <ToggleButtonGroup
           value={currentLanguage}
           exclusive
@@ -43,14 +69,13 @@ const Header: React.FC<HeaderProps> = ({
             日本語
           </ToggleButton>
         </ToggleButtonGroup>
-        
-        <IconButton 
+          <IconButton 
           size="small" 
           onClick={onSettingsOpen}
           sx={{ 
-            color: '#5f6368',
+            color: theme.palette.text.secondary,
             '&:hover': {
-              color: '#1976d2'
+              color: theme.palette.primary.main
             }
           }}
         >

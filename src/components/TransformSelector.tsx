@@ -35,9 +35,8 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
 }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-
   return (
-    <Box sx={{ p: 2, borderBottom: '1px solid #dadce0' }}>
+    <Box sx={{ p: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
       <Box 
         display="flex" 
         alignItems="center" 
@@ -61,12 +60,10 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
           >
             <MenuItem value="auto">{autoDetect}</MenuItem>
           </Select>
-        </FormControl>
-
-        <Box sx={{ px: isMobile ? 0 : 2, py: isMobile ? 1 : 0 }}>
+        </FormControl>        <Box sx={{ px: isMobile ? 0 : 2, py: isMobile ? 1 : 0 }}>
           <SwapHoriz 
             sx={{ 
-              color: '#5f6368', 
+              color: theme.palette.text.secondary, 
               fontSize: 28,
               transform: isMobile ? 'rotate(90deg)' : 'none'
             }} 

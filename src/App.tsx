@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   Container,
   Paper,
@@ -16,25 +16,53 @@ import {
   Footer,
 } from './components'
 
-const customTheme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-})
-
 function App() {
   const [inputText, setInputText] = useState('')
   const [outputText, setOutputText] = useState('')
   const [toTransform, setToTransform] = useState('ja_formal_aggr')
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
   
   // Use language context
   const { strings, currentLanguage, setLanguage } = useLanguage()
+  // Create dynamic theme based on dark mode
+  const customTheme = useMemo(() => createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+      primary: {
+        main: '#1976d2',
+      },
+      background: {
+        default: darkMode ? '#1a1a1a' : '#f5f5f5',
+        paper: darkMode ? '#2d2d2d' : '#ffffff',
+      },
+      text: {
+        primary: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.87)',
+        secondary: darkMode ? '#b3b3b3' : 'rgba(0, 0, 0, 0.6)',
+      },
+      divider: darkMode ? '#404040' : 'rgba(0, 0, 0, 0.12)',
+    },
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiInputBase-input': {
+              color: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.87)',
+            },
+          },
+        },
+      },
+      MuiChip: {
+        styleOverrides: {
+          root: {
+            backgroundColor: darkMode ? '#404040' : 'rgba(0, 0, 0, 0.08)',
+            color: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.87)',
+            border: darkMode ? '1px solid #555' : '1px solid rgba(0, 0, 0, 0.23)',
+          },
+        },
+      },
+    },
+  }), [darkMode])
 
   // Group targets by base language for better organization
   const japaneseTargets = translationTargets.filter(target => target.baseLang === 'ja')
@@ -48,11 +76,14 @@ function App() {
     setInputText('')
     setOutputText('')
   }
-
   const handleLanguageChange = (_event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => {
     if (newLanguage === 'en' || newLanguage === 'ja') {
       setLanguage(newLanguage)
     }
+  }
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode)
   }
 
   const handleSettingsOpen = () => {
@@ -88,20 +119,19 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Header
+      <Container maxWidth="lg" sx={{ py: 4 }}>        <Header
           title={strings.appTitle}
           currentLanguage={currentLanguage}
           onLanguageChange={handleLanguageChange}
           onSettingsOpen={handleSettingsOpen}
-        />
-
-        <Paper 
+          darkMode={darkMode}
+          onDarkModeToggle={handleDarkModeToggle}
+        />        <Paper 
           elevation={1} 
           sx={{ 
             borderRadius: 2,
             overflow: 'hidden',
-            border: '1px solid #dadce0'
+            border: `1px solid ${customTheme.palette.divider}`
           }}
         >
           <TransformSelector

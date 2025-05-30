@@ -62,8 +62,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
           rows={isMobile ? 12 : 16}
           placeholder={inputPlaceholder}
           value={inputText}
-          onChange={(e) => onInputChange(e.target.value)}
-          sx={{
+          onChange={(e) => onInputChange(e.target.value)}          sx={{
             width: '100%',
             '& .MuiOutlinedInput-root': {
               border: 'none',
@@ -74,6 +73,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
             '& .MuiInputBase-input': {
               fontSize: '18px',
               lineHeight: 1.5,
+              color: theme.palette.text.primary,
             }
           }}
         />
@@ -127,13 +127,13 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       <Divider 
         orientation={isMobile ? 'horizontal' : 'vertical'} 
         flexItem 
-      />
-
-      {/* Output Side */}
+      />      {/* Output Side */}
       <Box 
         flex={1} 
         position="relative" 
-        bgcolor="#f8f9fa"
+        sx={{
+          bgcolor: theme.palette.mode === 'dark' ? theme.palette.background.default : '#f8f9fa'
+        }}
         minHeight={isMobile ? 300 : 'auto'}
       >
         <TextField
@@ -143,8 +143,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
           value={outputText}
           InputProps={{
             readOnly: true,
-          }}
-          sx={{
+          }}          sx={{
             width: '100%',
             '& .MuiOutlinedInput-root': {
               border: 'none',
@@ -156,6 +155,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
             '& .MuiInputBase-input': {
               fontSize: '18px',
               lineHeight: 1.5,
+              color: theme.palette.text.primary,
             }
           }}
         />
