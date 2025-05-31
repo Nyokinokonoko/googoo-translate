@@ -76,13 +76,17 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
   const handleThemeChange = (event: SelectChangeEvent<string>) => {
     onThemeModeChange(event.target.value as "light" | "dark" | "system");
   };
-
   const handleLlmProviderChange = (event: SelectChangeEvent<string>) => {
-    onLlmProviderChange(
-      event.target.value as "openai" | "openrouter" | "custom"
-    );
-  };
+    const newProvider = event.target.value as
+      | "openai"
+      | "openrouter"
+      | "custom";
+    onLlmProviderChange(newProvider);
 
+    // Update base URL when provider changes
+    const newBaseUrl = getBaseUrlForProvider(newProvider);
+    onBaseUrlChange(newBaseUrl);
+  };
   const getBaseUrlForProvider = (
     provider: "openai" | "openrouter" | "custom"
   ) => {
@@ -91,6 +95,8 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
         return "https://api.openai.com/v1";
       case "openrouter":
         return "https://openrouter.ai/api/v1";
+      case "custom":
+        return baseUrl; // Keep the current custom URL
       default:
         return baseUrl;
     }

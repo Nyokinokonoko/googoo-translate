@@ -2,7 +2,10 @@ import { useState, useMemo, useEffect } from "react";
 import { Container, Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { translationTargets } from "./translationTargets";
+import {
+  translationTargets,
+  detectTranslationTarget,
+} from "./translationTargets";
 import type { TranslationTarget } from "./translationTargets";
 import { useLanguage, getLocalizedDisplayName } from "./languageContext";
 import {
@@ -13,32 +16,9 @@ import {
   Footer,
   Disclaimer,
 } from "./components";
+import { useLlmConfig } from "./hooks/useLlmConfig";
+import { translateText, detectTextStyle } from "./llm";
 import "./styles/index.css";
-
-// Utility function to check if LLM endpoint is properly configured
-const isLlmEndpointConfigured = (
-  llmProvider: "openai" | "openrouter" | "custom",
-  baseUrl: string,
-  apiKey: string,
-  modelIdentifier: string
-): boolean => {
-  // API key is always required
-  if (!apiKey.trim()) {
-    return false;
-  }
-
-  // Model identifier is always required
-  if (!modelIdentifier.trim()) {
-    return false;
-  }
-
-  // For custom provider, base URL is required
-  if (llmProvider === "custom" && !baseUrl.trim()) {
-    return false;
-  }
-
-  return true;
-};
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -49,14 +29,10 @@ function App() {
     "system"
   );
   const [systemPrefersDark, setSystemPrefersDark] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
 
-  // LLM Settings
-  const [llmProvider, setLlmProvider] = useState<
-    "openai" | "openrouter" | "custom"
-  >("openai");
-  const [baseUrl, setBaseUrl] = useState("");
-  const [apiKey, setApiKey] = useState("");
-  const [modelIdentifier, setModelIdentifier] = useState("gpt-4o-mini");
+  // Use LLM configuration hook
+  const llmConfig = useLlmConfig();
 
   // Use language context
   const { strings, currentLanguage, setLanguage } = useLanguage();
@@ -131,7 +107,6 @@ function App() {
       }),
     [darkMode]
   );
-
   // Group targets by base language for better organization
   const japaneseTargets = translationTargets.filter(
     (target) => target.baseLang === "ja"
@@ -161,24 +136,6 @@ function App() {
     setThemeMode(mode);
   };
 
-  const handleLlmProviderChange = (
-    provider: "openai" | "openrouter" | "custom"
-  ) => {
-    setLlmProvider(provider);
-  };
-
-  const handleBaseUrlChange = (url: string) => {
-    setBaseUrl(url);
-  };
-
-  const handleApiKeyChange = (key: string) => {
-    setApiKey(key);
-  };
-
-  const handleModelIdentifierChange = (model: string) => {
-    setModelIdentifier(model);
-  };
-
   const handleSettingsOpen = () => {
     setSettingsOpen(true);
   };
@@ -187,14 +144,42 @@ function App() {
     setSettingsOpen(false);
   };
 
-  const handleTranslate = () => {
-    // TODO: Implement translation logic
-    console.log("Translate:", inputText, "to", toTransform);
+  const handleTranslate = async () => {
+    if (!inputText.trim()) return;
+
+    setIsTranslating(true);
+    try {
+      let result: string;
+
+      if (toTransform === "detect") {
+        // Style detection mode
+        result = await detectTextStyle(inputText, llmConfig.getConfig());
+      } else {
+        // Translation mode
+        result = await translateText(
+          inputText,
+          toTransform,
+          llmConfig.getConfig()
+        );
+      }
+
+      setOutputText(result);
+    } catch (error) {
+      console.error("Translation failed:", error);
+      setOutputText(
+        `Error: ${
+          error instanceof Error ? error.message : "Translation failed"
+        }`
+      );
+    } finally {
+      setIsTranslating(false);
+    }
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(outputText);
   };
+
   const handleShare = () => {
     // TODO: Implement share functionality
     console.log("Share:", outputText);
@@ -210,6 +195,7 @@ function App() {
             onSettingsOpen={handleSettingsOpen}
           />
           <Paper elevation={1} className="app-paper">
+            {" "}
             <TransformSelector
               fromLabel={strings.fromLabel}
               toLabel={strings.toLabel}
@@ -217,6 +203,7 @@ function App() {
               toTransform={toTransform}
               japaneseTargets={japaneseTargets}
               englishTargets={englishTargets}
+              detectTarget={detectTranslationTarget}
               getDisplayName={getDisplayName}
               onTransformChange={setToTransform}
             />{" "}
@@ -232,13 +219,9 @@ function App() {
               onTranslate={handleTranslate}
               onCopy={handleCopy}
               onShare={handleShare}
-              isLlmConfigured={isLlmEndpointConfigured(
-                llmProvider,
-                baseUrl,
-                apiKey,
-                modelIdentifier
-              )}
+              isLlmConfigured={llmConfig.isConfigured}
               llmNotConfiguredTooltip={strings.llmEndpointNotConfigured}
+              isTranslating={isTranslating}
             />
           </Paper>
           <Disclaimer text={strings.disclaimerText} />
@@ -255,14 +238,14 @@ function App() {
             onLanguageChange={handleLanguageChange}
             themeMode={themeMode}
             onThemeModeChange={handleThemeModeChange}
-            llmProvider={llmProvider}
-            onLlmProviderChange={handleLlmProviderChange}
-            baseUrl={baseUrl}
-            onBaseUrlChange={handleBaseUrlChange}
-            apiKey={apiKey}
-            onApiKeyChange={handleApiKeyChange}
-            modelIdentifier={modelIdentifier}
-            onModelIdentifierChange={handleModelIdentifierChange}
+            llmProvider={llmConfig.provider}
+            onLlmProviderChange={llmConfig.setProvider}
+            baseUrl={llmConfig.baseUrl}
+            onBaseUrlChange={llmConfig.setBaseUrl}
+            apiKey={llmConfig.apiKey}
+            onApiKeyChange={llmConfig.setApiKey}
+            modelIdentifier={llmConfig.model}
+            onModelIdentifierChange={llmConfig.setModel}
           />
         </Container>
       </div>

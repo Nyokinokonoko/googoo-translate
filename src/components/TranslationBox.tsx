@@ -27,6 +27,8 @@ interface TranslationBoxProps {
   // LLM configuration status
   isLlmConfigured: boolean;
   llmNotConfiguredTooltip: string;
+  // Loading state
+  isTranslating?: boolean;
 }
 
 const TranslationBox: React.FC<TranslationBoxProps> = ({
@@ -43,6 +45,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   onShare,
   isLlmConfigured,
   llmNotConfiguredTooltip,
+  isTranslating = false,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -71,14 +74,17 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
             disableHoverListener={isLlmConfigured}
           >
             <span>
+              {" "}
               <Button
                 variant="contained"
                 size="small"
-                disabled={!inputText.trim() || !isLlmConfigured}
+                disabled={
+                  !inputText.trim() || !isLlmConfigured || isTranslating
+                }
                 onClick={onTranslate}
                 className="translation-box-translate-button"
               >
-                {translateButton}
+                {isTranslating ? "Translating..." : translateButton}
               </Button>
             </span>
           </Tooltip>

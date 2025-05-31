@@ -17,6 +17,7 @@ interface TransformSelectorProps {
   toTransform: string;
   japaneseTargets: TranslationTarget[];
   englishTargets: TranslationTarget[];
+  detectTarget?: TranslationTarget;
   getDisplayName: (target: TranslationTarget) => string;
   onTransformChange: (value: string) => void;
 }
@@ -28,6 +29,7 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
   toTransform,
   japaneseTargets,
   englishTargets,
+  detectTarget,
   getDisplayName,
   onTransformChange,
 }) => {
@@ -50,12 +52,23 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
         </Box>
 
         <FormControl size="small" className="transform-selector-form-control">
-          <InputLabel>{toLabel}</InputLabel>
+          <InputLabel>{toLabel}</InputLabel>{" "}
           <Select
             value={toTransform}
             label={toLabel}
             onChange={(e) => onTransformChange(e.target.value)}
           >
+            {detectTarget && (
+              <>
+                <MenuItem
+                  key={detectTarget.identifier}
+                  value={detectTarget.identifier}
+                >
+                  {getDisplayName(detectTarget)}
+                </MenuItem>
+                <Divider />
+              </>
+            )}
             {japaneseTargets.map((target) => (
               <MenuItem key={target.identifier} value={target.identifier}>
                 {getDisplayName(target)}
