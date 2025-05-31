@@ -8,6 +8,7 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  Tooltip,
 } from '@mui/material'
 import {
   ContentCopy,
@@ -27,6 +28,9 @@ interface TranslationBoxProps {
   onTranslate?: () => void
   onCopy?: () => void
   onShare?: () => void
+  // LLM configuration status
+  isLlmConfigured: boolean
+  llmNotConfiguredTooltip: string
 }
 
 const TranslationBox: React.FC<TranslationBoxProps> = ({
@@ -41,6 +45,8 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   onTranslate,
   onCopy,
   onShare,
+  isLlmConfigured,
+  llmNotConfiguredTooltip,
 }) => {const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   return (
@@ -55,23 +61,30 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
           onChange={(e) => onInputChange(e.target.value)}
           className="translation-box-textarea"
         />
-        
-        {/* Input Controls */}
+          {/* Input Controls */}
         <Box className="translation-box-controls">
           {inputText && (
             <IconButton size="small" onClick={onClear}>
               <Clear />
             </IconButton>
           )}
-          <Button
-            variant="contained"
-            size="small"
-            disabled={!inputText.trim()}
-            onClick={onTranslate}
-            className="translation-box-translate-button"
+          <Tooltip 
+            title={!isLlmConfigured ? llmNotConfiguredTooltip : ''}
+            arrow
+            disableHoverListener={isLlmConfigured}
           >
-            {translateButton}
-          </Button>
+            <span>
+              <Button
+                variant="contained"
+                size="small"
+                disabled={!inputText.trim() || !isLlmConfigured}
+                onClick={onTranslate}
+                className="translation-box-translate-button"
+              >
+                {translateButton}
+              </Button>
+            </span>
+          </Tooltip>
         </Box>
 
         {/* Character Count */}

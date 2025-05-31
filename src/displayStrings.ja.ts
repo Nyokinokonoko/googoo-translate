@@ -40,8 +40,9 @@ export const displayStringsJa: DisplayStrings = {
   openaiProvider: 'OpenAI',
   openrouterProvider: 'OpenRouter',  customProvider: 'カスタム',
   showPassword: '表示',
-  hidePassword: '非表示',
-  llmEndpointDisclaimer: '設定で提供されたエンドポイント情報はローカルに保存されます。このページは提供されたエンドポイントと直接通信し、これらの情報を他のサーバーに送信することはありません。',
+  hidePassword: '非表示',  llmEndpointDisclaimer: '設定で提供されたエンドポイント情報はローカルに保存されます。このページは提供されたエンドポイントと直接通信し、これらの情報を他のサーバーに送信することはありません。',
+    // Validation and error messages
+  llmEndpointNotConfigured: 'LLMエンドポイントが設定されていません。設定でAPIキーとエンドポイントを設定してください。',
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'スタイル検出',
   

@@ -18,6 +18,31 @@ import {
 } from './components'
 import './styles/index.css'
 
+// Utility function to check if LLM endpoint is properly configured
+const isLlmEndpointConfigured = (
+  llmProvider: 'openai' | 'openrouter' | 'custom',
+  baseUrl: string,
+  apiKey: string,
+  modelIdentifier: string
+): boolean => {
+  // API key is always required
+  if (!apiKey.trim()) {
+    return false
+  }
+  
+  // Model identifier is always required
+  if (!modelIdentifier.trim()) {
+    return false
+  }
+  
+  // For custom provider, base URL is required
+  if (llmProvider === 'custom' && !baseUrl.trim()) {
+    return false
+  }
+  
+  return true
+}
+
 function App() {
   const [inputText, setInputText] = useState('')
   const [outputText, setOutputText] = useState('')
@@ -179,8 +204,7 @@ function App() {
               englishTargets={englishTargets}
               getDisplayName={getDisplayName}
               onTransformChange={setToTransform}
-            />            
-            <TranslationBox
+            />              <TranslationBox
               inputText={inputText}
               outputText={outputText}
               inputPlaceholder={strings.inputPlaceholder}
@@ -191,8 +215,10 @@ function App() {
               onClear={handleClear}
               onTranslate={handleTranslate}
               onCopy={handleCopy}
-              onShare={handleShare}            
-          />
+              onShare={handleShare}
+              isLlmConfigured={isLlmEndpointConfigured(llmProvider, baseUrl, apiKey, modelIdentifier)}
+              llmNotConfiguredTooltip={strings.llmEndpointNotConfigured}
+            />
           </Paper>
           <Disclaimer text={strings.disclaimerText} />
           <Footer />          <SettingsDialog

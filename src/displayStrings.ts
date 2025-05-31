@@ -40,6 +40,8 @@ export interface DisplayStrings {
   llmEndpointDisclaimer: string;
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: string;
+    // Validation and error messages
+  llmEndpointNotConfigured: string;
   
   // Footer and metadata
   footerText: string;
@@ -83,8 +85,9 @@ export const displayStrings: DisplayStrings = {
   openaiProvider: 'OpenAI',
   openrouterProvider: 'OpenRouter',  customProvider: 'Custom',
   showPassword: 'Show',
-  hidePassword: 'Hide',
-  llmEndpointDisclaimer: 'Endpoint information provided in settings are stored locally. This page communicates directly to the endpoint provided and will not send these information to any other server.',
+  hidePassword: 'Hide',  llmEndpointDisclaimer: 'Endpoint information provided in settings are stored locally. This page communicates directly to the endpoint provided and will not send these information to any other server.',
+    // Validation and error messages
+  llmEndpointNotConfigured: 'LLM endpoint is not configured. Please set up your API key and endpoint in Settings.',
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'Detect style',
   
