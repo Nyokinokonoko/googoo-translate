@@ -83,22 +83,18 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
       | "custom";
     onLlmProviderChange(newProvider);
 
-    // Update base URL when provider changes
-    const newBaseUrl = getBaseUrlForProvider(newProvider);
-    onBaseUrlChange(newBaseUrl);
-  };
-  const getBaseUrlForProvider = (
-    provider: "openai" | "openrouter" | "custom"
-  ) => {
-    switch (provider) {
-      case "openai":
-        return "https://api.openai.com/v1";
-      case "openrouter":
-        return "https://openrouter.ai/api/v1";
-      case "custom":
-        return baseUrl; // Keep the current custom URL
-      default:
-        return baseUrl;
+    // Update base URL automatically for non-custom providers
+    if (newProvider !== "custom") {
+      let defaultUrl = "https://api.openai.com/v1";
+      switch (newProvider) {
+        case "openai":
+          defaultUrl = "https://api.openai.com/v1";
+          break;
+        case "openrouter":
+          defaultUrl = "https://openrouter.ai/api/v1";
+          break;
+      }
+      onBaseUrlChange(defaultUrl);
     }
   };
   return (
@@ -184,20 +180,20 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                 <MenuItem value="custom">{strings.customProvider}</MenuItem>
               </Select>
             </FormControl>
-          </Box>
+          </Box>{" "}
           {/* Base URL */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {strings.baseUrl}
-            </Typography>
+            </Typography>{" "}
             <TextField
               size="small"
               fullWidth
-              value={getBaseUrlForProvider(llmProvider)}
+              value={baseUrl}
               onChange={(e) => onBaseUrlChange(e.target.value)}
-              disabled={llmProvider !== "custom"}
               placeholder="https://api.example.com/v1"
               sx={{ maxWidth: 400 }}
+              disabled={llmProvider !== "custom"}
             />
           </Box>
           {/* API Key */}

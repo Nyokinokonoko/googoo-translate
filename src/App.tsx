@@ -2,10 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Container, Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import {
-  translationTargets,
-  detectTranslationTarget,
-} from "./translationTargets";
+import { translationTargets } from "./translationTargets";
 import type { TranslationTarget } from "./translationTargets";
 import { useLanguage, getLocalizedDisplayName } from "./languageContext";
 import {
@@ -17,7 +14,7 @@ import {
   Disclaimer,
 } from "./components";
 import { useLlmConfig } from "./hooks/useLlmConfig";
-import { translateText, detectTextStyle } from "./llm";
+import { translateText } from "./llm";
 import "./styles/index.css";
 
 function App() {
@@ -143,25 +140,17 @@ function App() {
   const handleSettingsClose = () => {
     setSettingsOpen(false);
   };
-
   const handleTranslate = async () => {
     if (!inputText.trim()) return;
 
     setIsTranslating(true);
     try {
-      let result: string;
-
-      if (toTransform === "detect") {
-        // Style detection mode
-        result = await detectTextStyle(inputText, llmConfig.getConfig());
-      } else {
-        // Translation mode
-        result = await translateText(
-          inputText,
-          toTransform,
-          llmConfig.getConfig()
-        );
-      }
+      // Translation mode
+      const result = await translateText(
+        inputText,
+        toTransform,
+        llmConfig.getConfig()
+      );
 
       setOutputText(result);
     } catch (error) {
@@ -203,7 +192,6 @@ function App() {
               toTransform={toTransform}
               japaneseTargets={japaneseTargets}
               englishTargets={englishTargets}
-              detectTarget={detectTranslationTarget}
               getDisplayName={getDisplayName}
               onTransformChange={setToTransform}
             />{" "}

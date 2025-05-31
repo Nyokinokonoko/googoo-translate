@@ -47,8 +47,6 @@ export const displayStringsJa: DisplayStrings = {
   // Validation and error messages
   llmEndpointNotConfigured:
     "LLMエンドポイントが設定されていません。設定でAPIキーとエンドポイントを設定してください。",
-  // Helper function labels (from translationTargets.ts)
-  helperFunctionDetectStyle: "スタイル検出",
 
   // Footer and metadata
   footerText: "AI駆動 • クリエイティブなテキスト変換",

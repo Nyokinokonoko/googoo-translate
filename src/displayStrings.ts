@@ -39,8 +39,6 @@ export interface DisplayStrings {
   showPassword: string;
   hidePassword: string;
   llmEndpointDisclaimer: string;
-  // Helper function labels (from translationTargets.ts)
-  helperFunctionDetectStyle: string;
   // Validation and error messages
   llmEndpointNotConfigured: string;
 
@@ -93,8 +91,6 @@ export const displayStrings: DisplayStrings = {
   // Validation and error messages
   llmEndpointNotConfigured:
     "LLM endpoint is not configured. Please set up your API key and endpoint in Settings.",
-  // Helper function labels (from translationTargets.ts)
-  helperFunctionDetectStyle: "Detect style",
 
   // Footer and metadata
   footerText: "Powered by AI • Transform text in creative ways",

@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import type { LlmProviderConfig } from "../llm/types";
-import { getDefaultBaseUrl, validateLlmConfig } from "../llm/llmProvider";
+import { validateLlmConfig } from "../llm/llmProvider";
 
 export type LlmProviderType = "openai" | "openrouter" | "custom";
 
@@ -39,10 +39,9 @@ export const useLlmConfig = (): UseLlmConfigReturn => {
     const stored = localStorage.getItem(STORAGE_KEYS.PROVIDER);
     return (stored as LlmProviderType) || "openai";
   });
-
   const [baseUrl, setBaseUrlState] = useState<string>(() => {
     const stored = localStorage.getItem(STORAGE_KEYS.BASE_URL);
-    return stored || getDefaultBaseUrl("OpenAI");
+    return stored || "https://api.openai.com/v1";
   });
 
   const [apiKey, setApiKeyState] = useState<string>(() => {
@@ -51,18 +50,18 @@ export const useLlmConfig = (): UseLlmConfigReturn => {
 
   const [model, setModelState] = useState<string>(() => {
     return localStorage.getItem(STORAGE_KEYS.MODEL) || "gpt-4o-mini";
-  });
-
-  // Update baseUrl when provider changes
+  }); // Update baseUrl when provider changes
   useEffect(() => {
     if (provider !== "custom") {
-      const defaultUrl = getDefaultBaseUrl(
-        provider === "openai"
-          ? "OpenAI"
-          : provider === "openrouter"
-          ? "OpenRouter"
-          : "Custom"
-      );
+      let defaultUrl = "https://api.openai.com/v1";
+      switch (provider) {
+        case "openai":
+          defaultUrl = "https://api.openai.com/v1";
+          break;
+        case "openrouter":
+          defaultUrl = "https://openrouter.ai/api/v1";
+          break;
+      }
       setBaseUrlState(defaultUrl);
     }
   }, [provider]);
@@ -87,7 +86,6 @@ export const useLlmConfig = (): UseLlmConfigReturn => {
     setModelState(newModel);
     localStorage.setItem(STORAGE_KEYS.MODEL, newModel);
   }, []);
-
   // Computed properties
   const getConfig = useCallback((): Omit<LlmProviderConfig, "systemPrompt"> => {
     const providerMap = {
@@ -98,10 +96,7 @@ export const useLlmConfig = (): UseLlmConfigReturn => {
 
     return {
       provider: providerMap[provider],
-      baseUrl:
-        provider === "custom"
-          ? baseUrl
-          : getDefaultBaseUrl(providerMap[provider]),
+      baseUrl, // Use the baseUrl from state/settings
       apiKey,
       model,
     };

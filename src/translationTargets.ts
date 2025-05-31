@@ -1,5 +1,3 @@
-import { displayStrings } from "./displayStrings";
-
 export interface TranslationTarget {
   identifier: string;
   baseLang: string;
@@ -95,11 +93,3 @@ export const translationTargets: TranslationTarget[] = [
     dispJa: "英語 (攻撃的インターネット)",
   },
 ];
-
-// Special detection option
-export const detectTranslationTarget: TranslationTarget = {
-  identifier: "detect",
-  baseLang: "auto",
-  dispEn: displayStrings.helperFunctionDetectStyle,
-  dispJa: "スタイル検出",
-};
