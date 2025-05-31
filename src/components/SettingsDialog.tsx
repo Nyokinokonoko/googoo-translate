@@ -16,8 +16,9 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  Tooltip,
 } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { Visibility, VisibilityOff, InfoOutlined } from '@mui/icons-material'
 import type { SelectChangeEvent } from '@mui/material'
 import { useLanguage } from '../languageContext'
 
@@ -148,12 +149,23 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
           {strings.llmEndpointSection}
         </Typography>
         
-        <Box sx={{ mb: 3 }}>
-          {/* LLM Provider */}
+        <Box sx={{ mb: 3 }}>          {/* LLM Provider */}
           <Box sx={{ mb: 2 }}>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-              {strings.llmProvider}
-            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                {strings.llmProvider}
+              </Typography>
+              <Tooltip title={strings.llmProviderTooltip} arrow>
+                <InfoOutlined 
+                  sx={{ 
+                    ml: 0.5, 
+                    fontSize: 16, 
+                    color: 'text.secondary',
+                    cursor: 'help'
+                  }} 
+                />
+              </Tooltip>
+            </Box>
             <FormControl size="small" sx={{ minWidth: 140 }}>
               <Select
                 value={llmProvider}
@@ -211,8 +223,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               }}
             />
           </Box>
-          
-          {/* Model Identifier */}
+            {/* Model Identifier */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {strings.modelIdentifier}
@@ -225,7 +236,14 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               placeholder="gpt-4o-mini"
               sx={{ maxWidth: 400 }}
             />
-          </Box>        </Box>
+          </Box>
+          
+          {/* LLM Endpoint Disclaimer */}
+          <Box sx={{ mt: 3, p: 2, backgroundColor: 'action.hover', borderRadius: 1 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem', lineHeight: 1.4 }}>
+              {strings.llmEndpointDisclaimer}
+            </Typography>
+          </Box></Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>

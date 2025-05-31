@@ -30,18 +30,18 @@ export const displayStringsJa: DisplayStrings = {
   darkMode: 'ダークモード',
   lightMode: 'ライトモード',
   systemDefault: 'システムデフォルト',
-  
-  // LLM Endpoint settings
+    // LLM Endpoint settings
   llmEndpointSection: 'LLMエンドポイント',
   llmProvider: 'プロバイダー',
+  llmProviderTooltip: 'OpenAI互換のエンドポイントのみ使用できます。',
   baseUrl: 'ベースURL',
   apiKey: 'APIキー',
   modelIdentifier: 'モデル識別子',
   openaiProvider: 'OpenAI',
-  openrouterProvider: 'OpenRouter',
-  customProvider: 'カスタム',
+  openrouterProvider: 'OpenRouter',  customProvider: 'カスタム',
   showPassword: '表示',
   hidePassword: '非表示',
+  llmEndpointDisclaimer: '設定で提供されたエンドポイント情報はローカルに保存されます。このページは提供されたエンドポイントと直接通信し、これらの情報を他のサーバーに送信することはありません。',
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'スタイル検出',
   

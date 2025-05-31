@@ -26,18 +26,18 @@ export interface DisplayStrings {
   darkMode: string;
   lightMode: string;
   systemDefault: string;
-  
-  // LLM Endpoint settings
+    // LLM Endpoint settings
   llmEndpointSection: string;
   llmProvider: string;
+  llmProviderTooltip: string;
   baseUrl: string;
   apiKey: string;
   modelIdentifier: string;
   openaiProvider: string;
-  openrouterProvider: string;
-  customProvider: string;
+  openrouterProvider: string;  customProvider: string;
   showPassword: string;
   hidePassword: string;
+  llmEndpointDisclaimer: string;
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: string;
   
@@ -73,18 +73,18 @@ export const displayStrings: DisplayStrings = {
   darkMode: 'Dark Mode',
   lightMode: 'Light Mode',
   systemDefault: 'System Default',
-  
-  // LLM Endpoint settings
+    // LLM Endpoint settings
   llmEndpointSection: 'LLM Endpoint',
   llmProvider: 'Provider',
+  llmProviderTooltip: 'Only endpoints that are OpenAI compatible can be used.',
   baseUrl: 'Base URL',
   apiKey: 'API Key',
   modelIdentifier: 'Model Identifier',
   openaiProvider: 'OpenAI',
-  openrouterProvider: 'OpenRouter',
-  customProvider: 'Custom',
+  openrouterProvider: 'OpenRouter',  customProvider: 'Custom',
   showPassword: 'Show',
   hidePassword: 'Hide',
+  llmEndpointDisclaimer: 'Endpoint information provided in settings are stored locally. This page communicates directly to the endpoint provided and will not send these information to any other server.',
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'Detect style',
   
