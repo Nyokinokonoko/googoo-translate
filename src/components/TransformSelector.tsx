@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Box,
   FormControl,
@@ -6,19 +6,19 @@ import {
   Select,
   MenuItem,
   Divider,
-} from '@mui/material'
-import { SwapHoriz } from '@mui/icons-material'
-import type { TranslationTarget } from '../translationTargets'
+} from "@mui/material";
+import { SwapHoriz } from "@mui/icons-material";
+import type { TranslationTarget } from "../translationTargets";
 
 interface TransformSelectorProps {
-  fromLabel: string
-  toLabel: string
-  autoDetect: string
-  toTransform: string
-  japaneseTargets: TranslationTarget[]
-  englishTargets: TranslationTarget[]
-  getDisplayName: (target: TranslationTarget) => string
-  onTransformChange: (value: string) => void
+  fromLabel: string;
+  toLabel: string;
+  autoDetect: string;
+  toTransform: string;
+  japaneseTargets: TranslationTarget[];
+  englishTargets: TranslationTarget[];
+  getDisplayName: (target: TranslationTarget) => string;
+  onTransformChange: (value: string) => void;
 }
 
 const TransformSelector: React.FC<TransformSelectorProps> = ({
@@ -30,20 +30,17 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
   englishTargets,
   getDisplayName,
   onTransformChange,
-}) => {  
+}) => {
   return (
     <Box className="transform-selector-container">
       <Box className="transform-selector-content">
-        <FormControl 
-          size="small" 
+        <FormControl
+          size="small"
           className="transform-selector-form-control"
           disabled
         >
           <InputLabel>{fromLabel}</InputLabel>
-          <Select
-            value="auto"
-            label={fromLabel}
-          >
+          <Select value="auto" label={fromLabel}>
             <MenuItem value="auto">{autoDetect}</MenuItem>
           </Select>
         </FormControl>
@@ -52,10 +49,7 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
           <SwapHoriz />
         </Box>
 
-        <FormControl 
-          size="small" 
-          className="transform-selector-form-control"
-        >
+        <FormControl size="small" className="transform-selector-form-control">
           <InputLabel>{toLabel}</InputLabel>
           <Select
             value={toTransform}
@@ -77,7 +71,7 @@ const TransformSelector: React.FC<TransformSelectorProps> = ({
         </FormControl>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default TransformSelector
+export default TransformSelector;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Box,
   TextField,
@@ -9,28 +9,24 @@ import {
   useMediaQuery,
   useTheme,
   Tooltip,
-} from '@mui/material'
-import {
-  ContentCopy,
-  Share,
-  Clear,
-} from '@mui/icons-material'
+} from "@mui/material";
+import { ContentCopy, Share, Clear } from "@mui/icons-material";
 
 interface TranslationBoxProps {
-  inputText: string
-  outputText: string
-  inputPlaceholder: string
-  outputPlaceholder: string
-  translateButton: string
-  characterCount: string
-  onInputChange: (value: string) => void
-  onClear: () => void
-  onTranslate?: () => void
-  onCopy?: () => void
-  onShare?: () => void
+  inputText: string;
+  outputText: string;
+  inputPlaceholder: string;
+  outputPlaceholder: string;
+  translateButton: string;
+  characterCount: string;
+  onInputChange: (value: string) => void;
+  onClear: () => void;
+  onTranslate?: () => void;
+  onCopy?: () => void;
+  onShare?: () => void;
   // LLM configuration status
-  isLlmConfigured: boolean
-  llmNotConfiguredTooltip: string
+  isLlmConfigured: boolean;
+  llmNotConfiguredTooltip: string;
 }
 
 const TranslationBox: React.FC<TranslationBoxProps> = ({
@@ -47,8 +43,9 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   onShare,
   isLlmConfigured,
   llmNotConfiguredTooltip,
-}) => {const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+}) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box className="translation-box-container">
       {/* Input Side */}
@@ -61,15 +58,15 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
           onChange={(e) => onInputChange(e.target.value)}
           className="translation-box-textarea"
         />
-          {/* Input Controls */}
+        {/* Input Controls */}
         <Box className="translation-box-controls">
           {inputText && (
             <IconButton size="small" onClick={onClear}>
               <Clear />
             </IconButton>
           )}
-          <Tooltip 
-            title={!isLlmConfigured ? llmNotConfiguredTooltip : ''}
+          <Tooltip
+            title={!isLlmConfigured ? llmNotConfiguredTooltip : ""}
             arrow
             disableHoverListener={isLlmConfigured}
           >
@@ -90,9 +87,9 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
         {/* Character Count */}
         {inputText && (
           <Box className="translation-box-character-count">
-            <Chip 
-              label={`${inputText.length} ${characterCount}`} 
-              size="small" 
+            <Chip
+              label={`${inputText.length} ${characterCount}`}
+              size="small"
               variant="outlined"
             />
           </Box>
@@ -100,10 +97,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       </Box>
 
       {/* Divider */}
-      <Divider 
-        orientation={isMobile ? 'horizontal' : 'vertical'} 
-        flexItem 
-      />
+      <Divider orientation={isMobile ? "horizontal" : "vertical"} flexItem />
 
       {/* Output Side */}
       <Box className="translation-box-side translation-box-output-side">
@@ -117,7 +111,6 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
           }}
           className="translation-box-textarea translation-box-output-textarea"
         />
-
         {/* Output Controls */}
         {outputText && (
           <Box className="translation-box-controls">
@@ -127,9 +120,11 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
             <IconButton size="small" onClick={onShare}>
               <Share />
             </IconButton>
-          </Box>        )}      </Box>
+          </Box>
+        )}{" "}
       </Box>
-      )
-}
+    </Box>
+  );
+};
 
-export default TranslationBox
+export default TranslationBox;

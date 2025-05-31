@@ -1,23 +1,23 @@
-import React from 'react'
-import { Box, Typography } from '@mui/material'
+import React from "react";
+import { Box, Typography } from "@mui/material";
 
 const Footer: React.FC = () => {
   return (
     <Box className="footer-content">
       <Typography variant="body2" color="text.secondary">
-        Made with 😢 by{' '}
-        <a 
-          href="https://x.com/nyokinokonoko" 
-          target="_blank" 
+        Made with 😢 by{" "}
+        <a
+          href="https://x.com/nyokinokonoko"
+          target="_blank"
           rel="noopener noreferrer"
           className="footer-link"
         >
           Kenny Ha
-        </a>
-        {' '}with{' '}
-        <a 
-          href="https://github.com/features/copilot" 
-          target="_blank" 
+        </a>{" "}
+        with{" "}
+        <a
+          href="https://github.com/features/copilot"
+          target="_blank"
           rel="noopener noreferrer"
           className="footer-link"
         >
@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         </a>
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

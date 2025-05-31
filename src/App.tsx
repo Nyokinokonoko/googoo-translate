@@ -1,13 +1,10 @@
-import { useState, useMemo, useEffect } from 'react'
-import {
-  Container,
-  Paper,
-} from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
-import { translationTargets } from './translationTargets'
-import type { TranslationTarget } from './translationTargets'
-import { useLanguage, getLocalizedDisplayName } from './languageContext'
+import { useState, useMemo, useEffect } from "react";
+import { Container, Paper } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { translationTargets } from "./translationTargets";
+import type { TranslationTarget } from "./translationTargets";
+import { useLanguage, getLocalizedDisplayName } from "./languageContext";
 import {
   Header,
   TransformSelector,
@@ -15,185 +12,203 @@ import {
   SettingsDialog,
   Footer,
   Disclaimer,
-} from './components'
-import './styles/index.css'
+} from "./components";
+import "./styles/index.css";
 
 // Utility function to check if LLM endpoint is properly configured
 const isLlmEndpointConfigured = (
-  llmProvider: 'openai' | 'openrouter' | 'custom',
+  llmProvider: "openai" | "openrouter" | "custom",
   baseUrl: string,
   apiKey: string,
   modelIdentifier: string
 ): boolean => {
   // API key is always required
   if (!apiKey.trim()) {
-    return false
+    return false;
   }
-  
+
   // Model identifier is always required
   if (!modelIdentifier.trim()) {
-    return false
+    return false;
   }
-  
+
   // For custom provider, base URL is required
-  if (llmProvider === 'custom' && !baseUrl.trim()) {
-    return false
+  if (llmProvider === "custom" && !baseUrl.trim()) {
+    return false;
   }
-  
-  return true
-}
+
+  return true;
+};
 
 function App() {
-  const [inputText, setInputText] = useState('')
-  const [outputText, setOutputText] = useState('')
-  const [toTransform, setToTransform] = useState('ja_formal_aggr')
-  const [settingsOpen, setSettingsOpen] = useState(false)
-  const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>('system')
-  const [systemPrefersDark, setSystemPrefersDark] = useState(false)
-  
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState("");
+  const [toTransform, setToTransform] = useState("ja_formal_aggr");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [themeMode, setThemeMode] = useState<"light" | "dark" | "system">(
+    "system"
+  );
+  const [systemPrefersDark, setSystemPrefersDark] = useState(false);
+
   // LLM Settings
-  const [llmProvider, setLlmProvider] = useState<'openai' | 'openrouter' | 'custom'>('openai')
-  const [baseUrl, setBaseUrl] = useState('')
-  const [apiKey, setApiKey] = useState('')
-  const [modelIdentifier, setModelIdentifier] = useState('gpt-4o-mini')
-  
+  const [llmProvider, setLlmProvider] = useState<
+    "openai" | "openrouter" | "custom"
+  >("openai");
+  const [baseUrl, setBaseUrl] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [modelIdentifier, setModelIdentifier] = useState("gpt-4o-mini");
+
   // Use language context
-  const { strings, currentLanguage, setLanguage } = useLanguage()
+  const { strings, currentLanguage, setLanguage } = useLanguage();
 
   // Listen for system theme changes
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-    setSystemPrefersDark(mediaQuery.matches)
-    
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    setSystemPrefersDark(mediaQuery.matches);
+
     const handleChange = (e: MediaQueryListEvent) => {
-      setSystemPrefersDark(e.matches)
-    }
-    
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
+      setSystemPrefersDark(e.matches);
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   // Determine actual dark mode based on theme mode
   const darkMode = useMemo(() => {
     switch (themeMode) {
-      case 'dark':
-        return true
-      case 'light':
-        return false
-      case 'system':
-        return systemPrefersDark
+      case "dark":
+        return true;
+      case "light":
+        return false;
+      case "system":
+        return systemPrefersDark;
       default:
-        return false
+        return false;
     }
-  }, [themeMode, systemPrefersDark])
+  }, [themeMode, systemPrefersDark]);
   // Create dynamic theme based on dark mode
-  const customTheme = useMemo(() => createTheme({
-    palette: {
-      mode: darkMode ? 'dark' : 'light',
-      primary: {
-        main: '#1976d2',
-      },
-      background: {
-        default: darkMode ? '#1a1a1a' : '#f5f5f5',
-        paper: darkMode ? '#2d2d2d' : '#ffffff',
-      },
-      text: {
-        primary: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.87)',
-        secondary: darkMode ? '#b3b3b3' : 'rgba(0, 0, 0, 0.6)',
-      },
-      divider: darkMode ? '#404040' : 'rgba(0, 0, 0, 0.12)',
-    },
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '& .MuiInputBase-input': {
-              color: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.87)',
+  const customTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? "dark" : "light",
+          primary: {
+            main: "#1976d2",
+          },
+          background: {
+            default: darkMode ? "#1a1a1a" : "#f5f5f5",
+            paper: darkMode ? "#2d2d2d" : "#ffffff",
+          },
+          text: {
+            primary: darkMode ? "#e0e0e0" : "rgba(0, 0, 0, 0.87)",
+            secondary: darkMode ? "#b3b3b3" : "rgba(0, 0, 0, 0.6)",
+          },
+          divider: darkMode ? "#404040" : "rgba(0, 0, 0, 0.12)",
+        },
+        components: {
+          MuiTextField: {
+            styleOverrides: {
+              root: {
+                "& .MuiInputBase-input": {
+                  color: darkMode ? "#e0e0e0" : "rgba(0, 0, 0, 0.87)",
+                },
+              },
+            },
+          },
+          MuiChip: {
+            styleOverrides: {
+              root: {
+                backgroundColor: darkMode ? "#404040" : "rgba(0, 0, 0, 0.08)",
+                color: darkMode ? "#e0e0e0" : "rgba(0, 0, 0, 0.87)",
+                border: darkMode
+                  ? "1px solid #555"
+                  : "1px solid rgba(0, 0, 0, 0.23)",
+              },
             },
           },
         },
-      },
-      MuiChip: {
-        styleOverrides: {
-          root: {
-            backgroundColor: darkMode ? '#404040' : 'rgba(0, 0, 0, 0.08)',
-            color: darkMode ? '#e0e0e0' : 'rgba(0, 0, 0, 0.87)',
-            border: darkMode ? '1px solid #555' : '1px solid rgba(0, 0, 0, 0.23)',
-          },
-        },
-      },
-    },
-  }), [darkMode])
+      }),
+    [darkMode]
+  );
 
   // Group targets by base language for better organization
-  const japaneseTargets = translationTargets.filter(target => target.baseLang === 'ja')
-  const englishTargets = translationTargets.filter(target => target.baseLang === 'en')
+  const japaneseTargets = translationTargets.filter(
+    (target) => target.baseLang === "ja"
+  );
+  const englishTargets = translationTargets.filter(
+    (target) => target.baseLang === "en"
+  );
 
   const getDisplayName = (target: TranslationTarget) => {
-    return getLocalizedDisplayName(target, currentLanguage)
-  }
+    return getLocalizedDisplayName(target, currentLanguage);
+  };
   const handleClear = () => {
-    setInputText('')
-    setOutputText('')
-  }
-  
-  const handleLanguageChange = (_event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => {
-    if (newLanguage === 'en' || newLanguage === 'ja') {
-      setLanguage(newLanguage)
-    }
-  }
-  
-  const handleThemeModeChange = (mode: 'light' | 'dark' | 'system') => {
-    setThemeMode(mode)
-  }
+    setInputText("");
+    setOutputText("");
+  };
 
-  const handleLlmProviderChange = (provider: 'openai' | 'openrouter' | 'custom') => {
-    setLlmProvider(provider)
-  }
+  const handleLanguageChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newLanguage: string | null
+  ) => {
+    if (newLanguage === "en" || newLanguage === "ja") {
+      setLanguage(newLanguage);
+    }
+  };
+
+  const handleThemeModeChange = (mode: "light" | "dark" | "system") => {
+    setThemeMode(mode);
+  };
+
+  const handleLlmProviderChange = (
+    provider: "openai" | "openrouter" | "custom"
+  ) => {
+    setLlmProvider(provider);
+  };
 
   const handleBaseUrlChange = (url: string) => {
-    setBaseUrl(url)
-  }
+    setBaseUrl(url);
+  };
 
   const handleApiKeyChange = (key: string) => {
-    setApiKey(key)
-  }
+    setApiKey(key);
+  };
 
   const handleModelIdentifierChange = (model: string) => {
-    setModelIdentifier(model)
-  }
+    setModelIdentifier(model);
+  };
 
   const handleSettingsOpen = () => {
-    setSettingsOpen(true)
-  }
+    setSettingsOpen(true);
+  };
 
   const handleSettingsClose = () => {
-    setSettingsOpen(false)
-  }
+    setSettingsOpen(false);
+  };
 
   const handleTranslate = () => {
     // TODO: Implement translation logic
-    console.log('Translate:', inputText, 'to', toTransform)
-  }
+    console.log("Translate:", inputText, "to", toTransform);
+  };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(outputText)
-  }
+    navigator.clipboard.writeText(outputText);
+  };
   const handleShare = () => {
     // TODO: Implement share functionality
-    console.log('Share:', outputText)
-  }
+    console.log("Share:", outputText);
+  };
 
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <div data-theme={darkMode ? 'dark' : 'light'}>
-        <Container maxWidth="lg" className="app-container">          
+      <div data-theme={darkMode ? "dark" : "light"}>
+        <Container maxWidth="lg" className="app-container">
           <Header
             title={strings.appTitle}
             onSettingsOpen={handleSettingsOpen}
           />
-
           <Paper elevation={1} className="app-paper">
             <TransformSelector
               fromLabel={strings.fromLabel}
@@ -204,7 +219,8 @@ function App() {
               englishTargets={englishTargets}
               getDisplayName={getDisplayName}
               onTransformChange={setToTransform}
-            />              <TranslationBox
+            />{" "}
+            <TranslationBox
               inputText={inputText}
               outputText={outputText}
               inputPlaceholder={strings.inputPlaceholder}
@@ -216,12 +232,18 @@ function App() {
               onTranslate={handleTranslate}
               onCopy={handleCopy}
               onShare={handleShare}
-              isLlmConfigured={isLlmEndpointConfigured(llmProvider, baseUrl, apiKey, modelIdentifier)}
+              isLlmConfigured={isLlmEndpointConfigured(
+                llmProvider,
+                baseUrl,
+                apiKey,
+                modelIdentifier
+              )}
               llmNotConfiguredTooltip={strings.llmEndpointNotConfigured}
             />
           </Paper>
           <Disclaimer text={strings.disclaimerText} />
-          <Footer />          <SettingsDialog
+          <Footer />{" "}
+          <SettingsDialog
             open={settingsOpen}
             onClose={handleSettingsClose}
             settingsTitle={strings.settingsTitle}
@@ -245,7 +267,7 @@ function App() {
         </Container>
       </div>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;

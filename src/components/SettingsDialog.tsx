@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -17,32 +17,35 @@ import {
   InputAdornment,
   IconButton,
   Tooltip,
-} from '@mui/material'
-import { Visibility, VisibilityOff, InfoOutlined } from '@mui/icons-material'
-import type { SelectChangeEvent } from '@mui/material'
-import { useLanguage } from '../languageContext'
+} from "@mui/material";
+import { Visibility, VisibilityOff, InfoOutlined } from "@mui/icons-material";
+import type { SelectChangeEvent } from "@mui/material";
+import { useLanguage } from "../languageContext";
 
 interface SettingsDialogProps {
-  open: boolean
-  onClose: () => void
-  settingsTitle: string
-  generalSection: string
-  languageSettings: string
-  themeSettings: string
-  closeButton: string
-  currentLanguage: string
-  onLanguageChange: (event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => void
-  themeMode: 'light' | 'dark' | 'system'
-  onThemeModeChange: (mode: 'light' | 'dark' | 'system') => void
+  open: boolean;
+  onClose: () => void;
+  settingsTitle: string;
+  generalSection: string;
+  languageSettings: string;
+  themeSettings: string;
+  closeButton: string;
+  currentLanguage: string;
+  onLanguageChange: (
+    event: React.MouseEvent<HTMLElement>,
+    newLanguage: string | null
+  ) => void;
+  themeMode: "light" | "dark" | "system";
+  onThemeModeChange: (mode: "light" | "dark" | "system") => void;
   // LLM Settings
-  llmProvider: 'openai' | 'openrouter' | 'custom'
-  onLlmProviderChange: (provider: 'openai' | 'openrouter' | 'custom') => void
-  baseUrl: string
-  onBaseUrlChange: (url: string) => void
-  apiKey: string
-  onApiKeyChange: (key: string) => void
-  modelIdentifier: string
-  onModelIdentifierChange: (model: string) => void
+  llmProvider: "openai" | "openrouter" | "custom";
+  onLlmProviderChange: (provider: "openai" | "openrouter" | "custom") => void;
+  baseUrl: string;
+  onBaseUrlChange: (url: string) => void;
+  apiKey: string;
+  onApiKeyChange: (key: string) => void;
+  modelIdentifier: string;
+  onModelIdentifierChange: (model: string) => void;
 }
 
 const SettingsDialog: React.FC<SettingsDialogProps> = ({
@@ -67,43 +70,40 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
   modelIdentifier,
   onModelIdentifierChange,
 }) => {
-  const { strings } = useLanguage()
-  const [showPassword, setShowPassword] = useState(false)
-  
+  const { strings } = useLanguage();
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleThemeChange = (event: SelectChangeEvent<string>) => {
-    onThemeModeChange(event.target.value as 'light' | 'dark' | 'system')
-  }
-  
+    onThemeModeChange(event.target.value as "light" | "dark" | "system");
+  };
+
   const handleLlmProviderChange = (event: SelectChangeEvent<string>) => {
-    onLlmProviderChange(event.target.value as 'openai' | 'openrouter' | 'custom')
-  }
-  
-  const getBaseUrlForProvider = (provider: 'openai' | 'openrouter' | 'custom') => {
+    onLlmProviderChange(
+      event.target.value as "openai" | "openrouter" | "custom"
+    );
+  };
+
+  const getBaseUrlForProvider = (
+    provider: "openai" | "openrouter" | "custom"
+  ) => {
     switch (provider) {
-      case 'openai':
-        return 'https://api.openai.com/v1'
-      case 'openrouter':
-        return 'https://openrouter.ai/api/v1'
+      case "openai":
+        return "https://api.openai.com/v1";
+      case "openrouter":
+        return "https://openrouter.ai/api/v1";
       default:
-        return baseUrl
+        return baseUrl;
     }
-  }
+  };
   return (
-    <Dialog 
-      open={open} 
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-    >
-      <DialogTitle>
-        {settingsTitle}
-      </DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle>{settingsTitle}</DialogTitle>
       <DialogContent>
         {/* General Section */}
-        <Typography variant="h6" sx={{ mt: 1, mb: 2, fontWeight: 'medium' }}>
+        <Typography variant="h6" sx={{ mt: 1, mb: 2, fontWeight: "medium" }}>
           {generalSection}
         </Typography>
-        
+
         <Box sx={{ mb: 3 }}>
           {/* Language Settings */}
           <Box sx={{ mb: 2 }}>
@@ -116,15 +116,11 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               onChange={onLanguageChange}
               size="small"
             >
-              <ToggleButton value="en">
-                EN
-              </ToggleButton>
-              <ToggleButton value="ja">
-                日本語
-              </ToggleButton>
+              <ToggleButton value="en">EN</ToggleButton>
+              <ToggleButton value="ja">日本語</ToggleButton>
             </ToggleButtonGroup>
           </Box>
-            {/* Theme Settings */}
+          {/* Theme Settings */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {themeSettings}
@@ -140,29 +136,32 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                 <MenuItem value="system">{strings.systemDefault}</MenuItem>
               </Select>
             </FormControl>
-          </Box>        </Box>
+          </Box>{" "}
+        </Box>
 
         <Divider sx={{ my: 2 }} />
-        
+
         {/* LLM Endpoint Section */}
-        <Typography variant="h6" sx={{ mt: 1, mb: 2, fontWeight: 'medium' }}>
+        <Typography variant="h6" sx={{ mt: 1, mb: 2, fontWeight: "medium" }}>
           {strings.llmEndpointSection}
         </Typography>
-        
-        <Box sx={{ mb: 3 }}>          {/* LLM Provider */}
+
+        <Box sx={{ mb: 3 }}>
+          {" "}
+          {/* LLM Provider */}
           <Box sx={{ mb: 2 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+            <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
               <Typography variant="body2" color="text.secondary">
                 {strings.llmProvider}
               </Typography>
               <Tooltip title={strings.llmProviderTooltip} arrow>
-                <InfoOutlined 
-                  sx={{ 
-                    ml: 0.5, 
-                    fontSize: 16, 
-                    color: 'text.secondary',
-                    cursor: 'help'
-                  }} 
+                <InfoOutlined
+                  sx={{
+                    ml: 0.5,
+                    fontSize: 16,
+                    color: "text.secondary",
+                    cursor: "help",
+                  }}
                 />
               </Tooltip>
             </Box>
@@ -173,12 +172,13 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                 displayEmpty
               >
                 <MenuItem value="openai">{strings.openaiProvider}</MenuItem>
-                <MenuItem value="openrouter">{strings.openrouterProvider}</MenuItem>
+                <MenuItem value="openrouter">
+                  {strings.openrouterProvider}
+                </MenuItem>
                 <MenuItem value="custom">{strings.customProvider}</MenuItem>
               </Select>
             </FormControl>
           </Box>
-          
           {/* Base URL */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -189,12 +189,11 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               fullWidth
               value={getBaseUrlForProvider(llmProvider)}
               onChange={(e) => onBaseUrlChange(e.target.value)}
-              disabled={llmProvider !== 'custom'}
+              disabled={llmProvider !== "custom"}
               placeholder="https://api.example.com/v1"
               sx={{ maxWidth: 400 }}
             />
           </Box>
-          
           {/* API Key */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
@@ -203,7 +202,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
             <TextField
               size="small"
               fullWidth
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               value={apiKey}
               onChange={(e) => onApiKeyChange(e.target.value)}
               placeholder="sk-..."
@@ -223,7 +222,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               }}
             />
           </Box>
-            {/* Model Identifier */}
+          {/* Model Identifier */}
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {strings.modelIdentifier}
@@ -237,21 +236,30 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               sx={{ maxWidth: 400 }}
             />
           </Box>
-          
           {/* LLM Endpoint Disclaimer */}
-          <Box sx={{ mt: 3, p: 2, backgroundColor: 'action.hover', borderRadius: 1 }}>
-            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem', lineHeight: 1.4 }}>
+          <Box
+            sx={{
+              mt: 3,
+              p: 2,
+              backgroundColor: "action.hover",
+              borderRadius: 1,
+            }}
+          >
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ fontSize: "0.875rem", lineHeight: 1.4 }}
+            >
               {strings.llmEndpointDisclaimer}
             </Typography>
-          </Box></Box>
+          </Box>
+        </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>
-          {closeButton}
-        </Button>
+        <Button onClick={onClose}>{closeButton}</Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
-export default SettingsDialog
+export default SettingsDialog;

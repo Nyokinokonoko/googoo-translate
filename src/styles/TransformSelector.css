@@ -31,16 +31,16 @@
   .transform-selector-content {
     flex-direction: column;
   }
-  
+
   .transform-selector-form-control {
     max-width: 100%;
     min-width: 100%;
   }
-  
+
   .transform-selector-swap-icon {
     padding: 0.5rem 0;
   }
-  
+
   .transform-selector-swap-icon svg {
     transform: rotate(90deg);
   }
