@@ -17,16 +17,11 @@ export interface DisplayStrings {
   closeButton: string;
   
   // Status and feedback
-  characterCount: string;
-    // Settings
+  characterCount: string;  // Settings
   settingsTitle: string;
-  settingsPlaceholder: string;
-  settingsFeatures: string;
   generalSection: string;
   languageSettings: string;
   themeSettings: string;
-  translationSettings: string;
-  keyboardSettings: string;
     // Theme options
   darkMode: string;
   lightMode: string;
@@ -67,16 +62,13 @@ export const displayStrings: DisplayStrings = {
   closeButton: 'Close',
   
   // Status and feedback
-  characterCount: 'characters',
-    // Settings
+  characterCount: 'characters',    
+  
+  // Settings
   settingsTitle: 'Settings',
-  settingsPlaceholder: 'Settings options will be available here in a future update.',
-  settingsFeatures: 'Planned features:',
   generalSection: 'General',
   languageSettings: 'Language settings',
   themeSettings: 'Theme settings',
-  translationSettings: 'Translation preferences',
-  keyboardSettings: 'Keyboard shortcuts',
     // Theme options
   darkMode: 'Dark Mode',
   lightMode: 'Light Mode',

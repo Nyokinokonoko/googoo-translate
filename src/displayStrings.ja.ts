@@ -19,16 +19,13 @@ export const displayStringsJa: DisplayStrings = {
   closeButton: '閉じる',
   
   // Status and feedback
-  characterCount: '文字',
-    // Settings
+  characterCount: '文字',    
+  
+  // Settings
   settingsTitle: '設定',
-  settingsPlaceholder: '設定オプションは将来のアップデートで利用可能になります。',
-  settingsFeatures: '予定されている機能:',
   generalSection: '一般',
   languageSettings: '言語設定',
   themeSettings: 'テーマ設定',
-  translationSettings: '変換設定',
-  keyboardSettings: 'キーボードショートカット',
     // Theme options
   darkMode: 'ダークモード',
   lightMode: 'ライトモード',

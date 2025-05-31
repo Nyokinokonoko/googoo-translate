@@ -25,13 +25,9 @@ interface SettingsDialogProps {
   open: boolean
   onClose: () => void
   settingsTitle: string
-  settingsPlaceholder: string
-  settingsFeatures: string
   generalSection: string
   languageSettings: string
   themeSettings: string
-  translationSettings: string
-  keyboardSettings: string
   closeButton: string
   currentLanguage: string
   onLanguageChange: (event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => void
@@ -52,13 +48,9 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
   open,
   onClose,
   settingsTitle,
-  settingsPlaceholder,
-  settingsFeatures,
   generalSection,
   languageSettings,
   themeSettings,
-  translationSettings,
-  keyboardSettings,
   closeButton,
   currentLanguage,
   onLanguageChange,
@@ -233,26 +225,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
               placeholder="gpt-4o-mini"
               sx={{ maxWidth: 400 }}
             />
-          </Box>
-        </Box>
-
-        <Divider sx={{ my: 2 }} />
-        
-        {/* Future Features */}
-        <Typography variant="body1" className="settings-dialog-content">
-          {settingsPlaceholder}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {settingsFeatures} 
-        </Typography>
-        <Box component="ul" className="settings-dialog-features-list">
-          <Typography variant="body2" color="text.secondary" component="li">
-            {translationSettings}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" component="li">
-            {keyboardSettings}
-          </Typography>
-        </Box>
+          </Box>        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>

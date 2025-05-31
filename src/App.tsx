@@ -163,7 +163,8 @@ function App() {
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <div data-theme={darkMode ? 'dark' : 'light'}>
-        <Container maxWidth="lg" className="app-container">          <Header
+        <Container maxWidth="lg" className="app-container">          
+          <Header
             title={strings.appTitle}
             onSettingsOpen={handleSettingsOpen}
           />
@@ -178,7 +179,8 @@ function App() {
               englishTargets={englishTargets}
               getDisplayName={getDisplayName}
               onTransformChange={setToTransform}
-            />            <TranslationBox
+            />            
+            <TranslationBox
               inputText={inputText}
               outputText={outputText}
               inputPlaceholder={strings.inputPlaceholder}
@@ -189,20 +191,17 @@ function App() {
               onClear={handleClear}
               onTranslate={handleTranslate}
               onCopy={handleCopy}
-              onShare={handleShare}            />
+              onShare={handleShare}            
+          />
           </Paper>
           <Disclaimer text={strings.disclaimerText} />
           <Footer />          <SettingsDialog
             open={settingsOpen}
             onClose={handleSettingsClose}
             settingsTitle={strings.settingsTitle}
-            settingsPlaceholder={strings.settingsPlaceholder}
-            settingsFeatures={strings.settingsFeatures}
             generalSection={strings.generalSection}
             languageSettings={strings.languageSettings}
             themeSettings={strings.themeSettings}
-            translationSettings={strings.translationSettings}
-            keyboardSettings={strings.keyboardSettings}
             closeButton={strings.closeButton}
             currentLanguage={currentLanguage}
             onLanguageChange={handleLanguageChange}
