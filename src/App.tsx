@@ -26,6 +26,12 @@ function App() {
   const [themeMode, setThemeMode] = useState<'light' | 'dark' | 'system'>('system')
   const [systemPrefersDark, setSystemPrefersDark] = useState(false)
   
+  // LLM Settings
+  const [llmProvider, setLlmProvider] = useState<'openai' | 'openrouter' | 'custom'>('openai')
+  const [baseUrl, setBaseUrl] = useState('')
+  const [apiKey, setApiKey] = useState('')
+  const [modelIdentifier, setModelIdentifier] = useState('gpt-4o-mini')
+  
   // Use language context
   const { strings, currentLanguage, setLanguage } = useLanguage()
 
@@ -101,18 +107,35 @@ function App() {
   const getDisplayName = (target: TranslationTarget) => {
     return getLocalizedDisplayName(target, currentLanguage)
   }
-
   const handleClear = () => {
     setInputText('')
     setOutputText('')
   }
+  
   const handleLanguageChange = (_event: React.MouseEvent<HTMLElement>, newLanguage: string | null) => {
     if (newLanguage === 'en' || newLanguage === 'ja') {
       setLanguage(newLanguage)
     }
   }
+  
   const handleThemeModeChange = (mode: 'light' | 'dark' | 'system') => {
     setThemeMode(mode)
+  }
+
+  const handleLlmProviderChange = (provider: 'openai' | 'openrouter' | 'custom') => {
+    setLlmProvider(provider)
+  }
+
+  const handleBaseUrlChange = (url: string) => {
+    setBaseUrl(url)
+  }
+
+  const handleApiKeyChange = (key: string) => {
+    setApiKey(key)
+  }
+
+  const handleModelIdentifierChange = (model: string) => {
+    setModelIdentifier(model)
   }
 
   const handleSettingsOpen = () => {
@@ -169,9 +192,7 @@ function App() {
               onShare={handleShare}            />
           </Paper>
           <Disclaimer text={strings.disclaimerText} />
-          <Footer />
-
-          <SettingsDialog
+          <Footer />          <SettingsDialog
             open={settingsOpen}
             onClose={handleSettingsClose}
             settingsTitle={strings.settingsTitle}
@@ -187,6 +208,14 @@ function App() {
             onLanguageChange={handleLanguageChange}
             themeMode={themeMode}
             onThemeModeChange={handleThemeModeChange}
+            llmProvider={llmProvider}
+            onLlmProviderChange={handleLlmProviderChange}
+            baseUrl={baseUrl}
+            onBaseUrlChange={handleBaseUrlChange}
+            apiKey={apiKey}
+            onApiKeyChange={handleApiKeyChange}
+            modelIdentifier={modelIdentifier}
+            onModelIdentifierChange={handleModelIdentifierChange}
           />
         </Container>
       </div>

@@ -27,11 +27,22 @@ export interface DisplayStrings {
   themeSettings: string;
   translationSettings: string;
   keyboardSettings: string;
-  
-  // Theme options
+    // Theme options
   darkMode: string;
   lightMode: string;
   systemDefault: string;
+  
+  // LLM Endpoint settings
+  llmEndpointSection: string;
+  llmProvider: string;
+  baseUrl: string;
+  apiKey: string;
+  modelIdentifier: string;
+  openaiProvider: string;
+  openrouterProvider: string;
+  customProvider: string;
+  showPassword: string;
+  hidePassword: string;
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: string;
   
@@ -66,11 +77,22 @@ export const displayStrings: DisplayStrings = {
   themeSettings: 'Theme settings',
   translationSettings: 'Translation preferences',
   keyboardSettings: 'Keyboard shortcuts',
-  
-  // Theme options
+    // Theme options
   darkMode: 'Dark Mode',
   lightMode: 'Light Mode',
   systemDefault: 'System Default',
+  
+  // LLM Endpoint settings
+  llmEndpointSection: 'LLM Endpoint',
+  llmProvider: 'Provider',
+  baseUrl: 'Base URL',
+  apiKey: 'API Key',
+  modelIdentifier: 'Model Identifier',
+  openaiProvider: 'OpenAI',
+  openrouterProvider: 'OpenRouter',
+  customProvider: 'Custom',
+  showPassword: 'Show',
+  hidePassword: 'Hide',
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'Detect style',
   

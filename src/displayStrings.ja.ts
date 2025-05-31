@@ -29,11 +29,22 @@ export const displayStringsJa: DisplayStrings = {
   themeSettings: 'テーマ設定',
   translationSettings: '変換設定',
   keyboardSettings: 'キーボードショートカット',
-  
-  // Theme options
+    // Theme options
   darkMode: 'ダークモード',
   lightMode: 'ライトモード',
   systemDefault: 'システムデフォルト',
+  
+  // LLM Endpoint settings
+  llmEndpointSection: 'LLMエンドポイント',
+  llmProvider: 'プロバイダー',
+  baseUrl: 'ベースURL',
+  apiKey: 'APIキー',
+  modelIdentifier: 'モデル識別子',
+  openaiProvider: 'OpenAI',
+  openrouterProvider: 'OpenRouter',
+  customProvider: 'カスタム',
+  showPassword: '表示',
+  hidePassword: '非表示',
     // Helper function labels (from translationTargets.ts)
   helperFunctionDetectStyle: 'スタイル検出',
   
