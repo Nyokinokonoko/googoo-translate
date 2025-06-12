@@ -12,6 +12,7 @@ export const createOpenAIClient = (config: LlmProviderConfig): OpenAI => {
   return new OpenAI({
     apiKey: config.apiKey,
     baseURL: config.baseUrl, // supports OpenRouter and custom endpoints
+    dangerouslyAllowBrowser: true,
   });
 };
 
