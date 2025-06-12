@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -17,10 +17,13 @@ import {
   InputAdornment,
   IconButton,
   Tooltip,
+  Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff, InfoOutlined } from "@mui/icons-material";
 import type { SelectChangeEvent } from "@mui/material";
 import { useLanguage } from "../languageContext";
+import { getOpenRouterModelIds } from "../llm/openRouterService";
 
 interface SettingsDialogProps {
   open: boolean;
@@ -72,6 +75,29 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
 }) => {
   const { strings } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
+  const [openRouterModels, setOpenRouterModels] = useState<string[]>([]);
+  const [modelsLoading, setModelsLoading] = useState(false);
+  const [modelsError, setModelsError] = useState<string | null>(null);
+
+  // Load OpenRouter models when provider is set to openrouter
+  useEffect(() => {
+    if (llmProvider === 'openrouter') {
+      const loadModels = async () => {
+        setModelsLoading(true);
+        setModelsError(null);
+        try {
+          const models = await getOpenRouterModelIds();
+          setOpenRouterModels(models);
+        } catch (error) {
+          setModelsError(error instanceof Error ? error.message : 'Failed to load models');
+          setOpenRouterModels([]);
+        } finally {
+          setModelsLoading(false);
+        }
+      };
+      loadModels();
+    }
+  }, [llmProvider]);
 
   const handleThemeChange = (event: SelectChangeEvent<string>) => {
     onThemeModeChange(event.target.value as "light" | "dark" | "system");
@@ -229,14 +255,46 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {strings.modelIdentifier}
             </Typography>
-            <TextField
-              size="small"
-              fullWidth
-              value={modelIdentifier}
-              onChange={(e) => onModelIdentifierChange(e.target.value)}
-              placeholder="gpt-4o-mini"
-              sx={{ maxWidth: 400 }}
-            />
+            {llmProvider === 'openrouter' ? (
+              <Autocomplete
+                size="small"
+                fullWidth
+                sx={{ maxWidth: 400 }}
+                value={modelIdentifier}
+                onChange={(_, newValue) => onModelIdentifierChange(newValue || '')}
+                inputValue={modelIdentifier}
+                onInputChange={(_, newInputValue) => onModelIdentifierChange(newInputValue)}
+                options={openRouterModels}
+                loading={modelsLoading}
+                freeSolo
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="gpt-4o-mini"
+                    error={!!modelsError}
+                    helperText={modelsError}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {modelsLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            ) : (
+              <TextField
+                size="small"
+                fullWidth
+                value={modelIdentifier}
+                onChange={(e) => onModelIdentifierChange(e.target.value)}
+                placeholder="gpt-4o-mini"
+                sx={{ maxWidth: 400 }}
+              />
+            )}
           </Box>
           {/* LLM Endpoint Disclaimer */}
           <Box
