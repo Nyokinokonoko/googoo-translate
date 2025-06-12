@@ -1,0 +1,10 @@
+/* App component styles */
+.app-container {
+  padding: 2rem 0;
+}
+
+.app-paper {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--divider);
+}

@@ -1,0 +1,82 @@
+/* TranslationBox component styles */
+.translation-box-container {
+  display: flex;
+  min-height: 400px;
+}
+
+.translation-box-side {
+  flex: 1;
+  position: relative;
+}
+
+.translation-box-output-side {
+  background-color: var(--background-input);
+}
+
+.translation-box-textarea {
+  width: 100%;
+}
+
+.translation-box-textarea .MuiOutlinedInput-root {
+  border: none;
+}
+
+.translation-box-textarea .MuiOutlinedInput-root fieldset {
+  border: none;
+}
+
+.translation-box-textarea .MuiOutlinedInput-root:hover fieldset {
+  border: none;
+}
+
+.translation-box-textarea .MuiOutlinedInput-root.Mui-focused fieldset {
+  border: none;
+}
+
+.translation-box-textarea .MuiInputBase-input {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.translation-box-output-textarea .MuiOutlinedInput-root {
+  background-color: transparent;
+}
+
+.translation-box-controls {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.translation-box-translate-button {
+  text-transform: none;
+  border-radius: 8px;
+  padding: 0 1rem;
+  background-color: var(--primary-main);
+}
+
+.translation-box-translate-button:hover {
+  background-color: var(--primary-hover);
+}
+
+.translation-box-character-count {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+}
+
+/* Mobile styles */
+@media (max-width: 900px) {
+  .translation-box-container {
+    flex-direction: column;
+    min-height: 600px;
+  }
+
+  .translation-box-side {
+    min-height: 300px;
+  }
+}

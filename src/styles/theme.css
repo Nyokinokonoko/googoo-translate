@@ -1,0 +1,30 @@
+/* Theme variables and global styles */
+:root {
+  /* Light theme colors */
+  --primary-main: #1976d2;
+  --primary-hover: #1565c0;
+  --background-input-light: #f8f9fa;
+  --text-primary-light: rgba(0, 0, 0, 0.87);
+  --text-secondary-light: rgba(0, 0, 0, 0.6);
+  --divider-light: rgba(0, 0, 0, 0.12);
+
+  /* Dark theme colors */
+  --background-input-dark: #1a1a1a;
+  --text-primary-dark: #e0e0e0;
+  --text-secondary-dark: #b3b3b3;
+  --divider-dark: #404040;
+}
+
+[data-theme="light"] {
+  --background-input: var(--background-input-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --divider: var(--divider-light);
+}
+
+[data-theme="dark"] {
+  --background-input: var(--background-input-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --divider: var(--divider-dark);
+}

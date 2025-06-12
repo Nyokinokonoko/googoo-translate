@@ -1,0 +1,15 @@
+/* Footer component styles */
+.footer-content {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.footer-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--primary-main);
+}
