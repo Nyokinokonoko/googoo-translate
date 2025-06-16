@@ -5,4 +5,18 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: "/",
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate React and React DOM
+          react: ['react', 'react-dom'],
+          // Separate MUI components (largest dependency)
+          mui: ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+          // Separate OpenAI SDK
+          openai: ['openai'],
+        },
+      },
+    },
+  },
 });
