@@ -45,6 +45,9 @@ export interface DisplayStrings {
   // Footer and metadata
   footerText: string;
   disclaimerText: string;
+  
+  // Debug Dialog
+  debugDialogTitle: string;
 }
 
 export const displayStrings: DisplayStrings = {
@@ -96,6 +99,9 @@ export const displayStrings: DisplayStrings = {
   footerText: "Powered by AI • Transform text in creative ways",
   disclaimerText:
     "This project is mostly for entertainment purposes. Translations (text transformations) are powered by LLMs. LLMs may provide inaccurate response, use the output responsibly with caution.",
+  
+  // Debug Dialog
+  debugDialogTitle: "Debug Information",
 };
 
 // Helper function to get display string by key

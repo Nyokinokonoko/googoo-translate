@@ -12,7 +12,9 @@ import {
   SettingsDialog,
   Footer,
   Disclaimer,
+  LlmDebugDialog,
 } from "./components";
+import type { LlmDebugInfo } from "./components/LlmDebugDialog";
 import { useLlmConfig } from "./hooks/useLlmConfig";
 import { translateText } from "./llm";
 import "./styles/index.css";
@@ -27,6 +29,9 @@ function App() {
   );
   const [systemPrefersDark, setSystemPrefersDark] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<LlmDebugInfo | null>(null);
+  const [debugDialogOpen, setDebugDialogOpen] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   // Use LLM configuration hook
   const llmConfig = useLlmConfig();
@@ -144,6 +149,9 @@ function App() {
     if (!inputText.trim()) return;
 
     setIsTranslating(true);
+    setHasError(false);
+    setDebugInfo(null);
+    
     try {
       // Translation mode
       const result = await translateText(
@@ -152,9 +160,17 @@ function App() {
         llmConfig.getConfig()
       );
 
-      setOutputText(result);
-    } catch (error) {
+      setOutputText(result.text);
+      setDebugInfo(result.debugInfo);
+    } catch (error: any) {
       console.error("Translation failed:", error);
+      setHasError(true);
+      
+      // Check if error has debug info
+      if (error.debugInfo) {
+        setDebugInfo(error.debugInfo);
+      }
+      
       setOutputText(
         `Error: ${
           error instanceof Error ? error.message : "Translation failed"
@@ -172,6 +188,14 @@ function App() {
   const handleShare = () => {
     // TODO: Implement share functionality
     console.log("Share:", outputText);
+  };
+
+  const handleDebugClick = () => {
+    setDebugDialogOpen(true);
+  };
+
+  const handleDebugClose = () => {
+    setDebugDialogOpen(false);
   };
 
   return (
@@ -210,6 +234,9 @@ function App() {
               isLlmConfigured={llmConfig.isConfigured}
               llmNotConfiguredTooltip={strings.llmEndpointNotConfigured}
               isTranslating={isTranslating}
+              debugInfo={debugInfo}
+              onDebugClick={handleDebugClick}
+              hasError={hasError}
             />
           </Paper>
           <Disclaimer text={strings.disclaimerText} />
@@ -234,6 +261,13 @@ function App() {
             onApiKeyChange={llmConfig.setApiKey}
             modelIdentifier={llmConfig.model}
             onModelIdentifierChange={llmConfig.setModel}
+          />
+          <LlmDebugDialog
+            open={debugDialogOpen}
+            onClose={handleDebugClose}
+            debugInfo={debugInfo}
+            title={strings.debugDialogTitle || "Debug Information"}
+            closeButton={strings.closeButton}
           />
         </Container>
       </div>

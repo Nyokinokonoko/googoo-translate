@@ -52,4 +52,7 @@ export const displayStringsJa: DisplayStrings = {
   footerText: "AI駆動 • クリエイティブなテキスト変換",
   disclaimerText:
     "このプロジェクトは主に娯楽目的です。翻訳（テキスト変換）はLLMによって提供されています。LLMは不正確な応答を提供する可能性があります。出力は責任を持って慎重に使用してください。",
+  
+  // Debug Dialog
+  debugDialogTitle: "デバッグ情報",
 };

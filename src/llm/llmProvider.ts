@@ -47,11 +47,18 @@ export const sendChatCompletion = async (
     };
   } catch (error) {
     console.error("LLM API request failed:", error);
-    throw new Error(
+    
+    // Create enhanced error with original error details
+    const enhancedError = new Error(
       `Failed to get response from LLM: ${
         error instanceof Error ? error.message : "Unknown error"
       }`
-    );
+    ) as any;
+    
+    // Preserve the original error for debugging
+    enhancedError.originalError = error;
+    
+    throw enhancedError;
   }
 };
 

@@ -11,7 +11,8 @@ import {
   Tooltip,
   CircularProgress,
 } from "@mui/material";
-import { ContentCopy, Share, Clear } from "@mui/icons-material";
+import { ContentCopy, Share, Clear, BugReport } from "@mui/icons-material";
+import type { LlmDebugInfo } from "./LlmDebugDialog";
 
 interface TranslationBoxProps {
   inputText: string;
@@ -30,6 +31,10 @@ interface TranslationBoxProps {
   llmNotConfiguredTooltip: string;
   // Loading state
   isTranslating?: boolean;
+  // Debug info for errors
+  debugInfo?: LlmDebugInfo | null;
+  onDebugClick?: () => void;
+  hasError?: boolean;
 }
 
 const TranslationBox: React.FC<TranslationBoxProps> = ({
@@ -47,6 +52,9 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   isLlmConfigured,
   llmNotConfiguredTooltip,
   isTranslating = false,
+  debugInfo,
+  onDebugClick,
+  hasError = false,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -128,6 +136,13 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
         {/* Output Controls */}
         {outputText && (
           <Box className="translation-box-controls">
+            {hasError && debugInfo && onDebugClick && (
+              <Tooltip title="Show debug information" arrow>
+                <IconButton size="small" onClick={onDebugClick}>
+                  <BugReport />
+                </IconButton>
+              </Tooltip>
+            )}
             <IconButton size="small" onClick={onCopy}>
               <ContentCopy />
             </IconButton>
