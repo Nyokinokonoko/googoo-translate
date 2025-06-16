@@ -20,10 +20,11 @@ import {
   Autocomplete,
   CircularProgress,
 } from "@mui/material";
-import { Visibility, VisibilityOff, InfoOutlined } from "@mui/icons-material";
+import { Visibility, VisibilityOff, InfoOutlined, List } from "@mui/icons-material";
 import type { SelectChangeEvent } from "@mui/material";
 import { useLanguage } from "../languageContext";
-import { getOpenRouterModelIds } from "../llm/openRouterService";
+import { getOpenRouterModelIds } from "../llm/modelService";
+import ModelSelectionDialog from "./ModelSelectionDialog";
 
 interface SettingsDialogProps {
   open: boolean;
@@ -78,6 +79,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
   const [openRouterModels, setOpenRouterModels] = useState<string[]>([]);
   const [modelsLoading, setModelsLoading] = useState(false);
   const [modelsError, setModelsError] = useState<string | null>(null);
+  const [modelSelectionOpen, setModelSelectionOpen] = useState(false);
 
   // Load OpenRouter models when provider is set to openrouter
   useEffect(() => {
@@ -255,37 +257,7 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {strings.modelIdentifier}
             </Typography>
-            {llmProvider === 'openrouter' ? (
-              <Autocomplete
-                size="small"
-                fullWidth
-                sx={{ maxWidth: 400 }}
-                value={modelIdentifier}
-                onChange={(_, newValue) => onModelIdentifierChange(newValue || '')}
-                inputValue={modelIdentifier}
-                onInputChange={(_, newInputValue) => onModelIdentifierChange(newInputValue)}
-                options={openRouterModels}
-                loading={modelsLoading}
-                freeSolo
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder="gpt-4o-mini"
-                    error={!!modelsError}
-                    helperText={modelsError}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <>
-                          {modelsLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
-                    }}
-                  />
-                )}
-              />
-            ) : (
+            {llmProvider === 'custom' ? (
               <TextField
                 size="small"
                 fullWidth
@@ -294,6 +266,33 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
                 placeholder="gpt-4o-mini"
                 sx={{ maxWidth: 400 }}
               />
+            ) : (
+              <Box sx={{ display: "flex", gap: 1, maxWidth: 400 }}>
+                <TextField
+                  size="small"
+                  fullWidth
+                  value={modelIdentifier}
+                  placeholder="gpt-4o-mini"
+                  disabled={true}
+                  sx={{ flexGrow: 1 }}
+                />
+                <Button
+                  variant="contained"
+                  size="small"
+                  startIcon={<List />}
+                  onClick={() => setModelSelectionOpen(true)}
+                  sx={{ 
+                    minWidth: "auto", 
+                    px: 2,
+                    backgroundColor: "primary.main",
+                    "&:hover": {
+                      backgroundColor: "primary.dark",
+                    }
+                  }}
+                >
+                  Select
+                </Button>
+              </Box>
             )}
           </Box>
           {/* LLM Endpoint Disclaimer */}
@@ -318,6 +317,20 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
       <DialogActions>
         <Button onClick={onClose}>{closeButton}</Button>
       </DialogActions>
+      
+      <ModelSelectionDialog
+        open={modelSelectionOpen}
+        onClose={() => setModelSelectionOpen(false)}
+        onSelect={(modelId) => {
+          onModelIdentifierChange(modelId);
+          setModelSelectionOpen(false);
+        }}
+        provider={llmProvider === 'openai' ? 'OpenAI' : 'OpenRouter'}
+        apiKey={apiKey}
+        currentModel={modelIdentifier}
+        title={strings.modelSelectionTitle || "Select Model"}
+        cancelButton={closeButton}
+      />
     </Dialog>
   );
 };

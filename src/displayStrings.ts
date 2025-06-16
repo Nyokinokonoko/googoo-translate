@@ -48,6 +48,9 @@ export interface DisplayStrings {
   
   // Debug Dialog
   debugDialogTitle: string;
+  
+  // Model Selection
+  modelSelectionTitle: string;
 }
 
 export const displayStrings: DisplayStrings = {
@@ -102,6 +105,9 @@ export const displayStrings: DisplayStrings = {
   
   // Debug Dialog
   debugDialogTitle: "Debug Information",
+  
+  // Model Selection
+  modelSelectionTitle: "Select Model",
 };
 
 // Helper function to get display string by key

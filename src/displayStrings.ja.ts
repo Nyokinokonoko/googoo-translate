@@ -55,4 +55,7 @@ export const displayStringsJa: DisplayStrings = {
   
   // Debug Dialog
   debugDialogTitle: "デバッグ情報",
+  
+  // Model Selection
+  modelSelectionTitle: "モデル選択",
 };
