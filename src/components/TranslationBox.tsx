@@ -9,6 +9,7 @@ import {
   useMediaQuery,
   useTheme,
   Tooltip,
+  CircularProgress,
 } from "@mui/material";
 import { ContentCopy, Share, Clear } from "@mui/icons-material";
 
@@ -107,16 +108,23 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
 
       {/* Output Side */}
       <Box className="translation-box-side translation-box-output-side">
-        <TextField
-          multiline
-          rows={isMobile ? 12 : 16}
-          placeholder={outputPlaceholder}
-          value={outputText}
-          InputProps={{
-            readOnly: true,
-          }}
-          className="translation-box-textarea translation-box-output-textarea"
-        />
+        <Box className="translation-box-output-container">
+          <TextField
+            multiline
+            rows={isMobile ? 12 : 16}
+            placeholder={outputPlaceholder}
+            value={outputText}
+            InputProps={{
+              readOnly: true,
+            }}
+            className="translation-box-textarea translation-box-output-textarea"
+          />
+          {isTranslating && (
+            <Box className="translation-box-loading-overlay">
+              <CircularProgress size={40} />
+            </Box>
+          )}
+        </Box>
         {/* Output Controls */}
         {outputText && (
           <Box className="translation-box-controls">
