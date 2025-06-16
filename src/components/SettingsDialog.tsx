@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -17,13 +17,10 @@ import {
   InputAdornment,
   IconButton,
   Tooltip,
-  Autocomplete,
-  CircularProgress,
 } from "@mui/material";
 import { Visibility, VisibilityOff, InfoOutlined, List } from "@mui/icons-material";
 import type { SelectChangeEvent } from "@mui/material";
 import { useLanguage } from "../languageContext";
-import { getOpenRouterModelIds } from "../llm/modelService";
 import ModelSelectionDialog from "./ModelSelectionDialog";
 
 interface SettingsDialogProps {
@@ -76,30 +73,8 @@ const SettingsDialog: React.FC<SettingsDialogProps> = ({
 }) => {
   const { strings } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
-  const [openRouterModels, setOpenRouterModels] = useState<string[]>([]);
-  const [modelsLoading, setModelsLoading] = useState(false);
-  const [modelsError, setModelsError] = useState<string | null>(null);
   const [modelSelectionOpen, setModelSelectionOpen] = useState(false);
 
-  // Load OpenRouter models when provider is set to openrouter
-  useEffect(() => {
-    if (llmProvider === 'openrouter') {
-      const loadModels = async () => {
-        setModelsLoading(true);
-        setModelsError(null);
-        try {
-          const models = await getOpenRouterModelIds();
-          setOpenRouterModels(models);
-        } catch (error) {
-          setModelsError(error instanceof Error ? error.message : 'Failed to load models');
-          setOpenRouterModels([]);
-        } finally {
-          setModelsLoading(false);
-        }
-      };
-      loadModels();
-    }
-  }, [llmProvider]);
 
   const handleThemeChange = (event: SelectChangeEvent<string>) => {
     onThemeModeChange(event.target.value as "light" | "dark" | "system");
